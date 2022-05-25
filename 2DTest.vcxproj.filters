@@ -160,6 +160,9 @@
     <Filter Include="Source Files\Actor\Components">
       <UniqueIdentifier>{8cf51c9b-a78e-480a-acc5-0db7d40fb349}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{36b740bb-2875-4940-93b7-a5499117c84f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -203,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="Sources\Transform.cpp">
       <Filter>Source Files\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\TileMapRenderer.cpp">
+      <Filter>Source Files\Actor\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -332,6 +338,9 @@
     </Text>
     <Text Include="App\example\LICENSE.txt">
       <Filter>Resource Files\example</Filter>
+    </Text>
+    <Text Include="App\Resources\Tilemap\Image\tile.txt">
+      <Filter>Resources</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
@@ -792,6 +801,9 @@
     <None Include="App\engine\font\min\siv3d-min.woff">
       <Filter>Resource Files\engine\font\min</Filter>
     </None>
+    <None Include="App\Resources\Tilemap\CSV\TestStage.csv">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Media Include="App\example\test.mp3">
@@ -871,6 +883,9 @@
     </ClInclude>
     <ClInclude Include="Headers\Transform.h">
       <Filter>Header Files\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\TileMapRenderer.h">
+      <Filter>Header Files\Actor\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

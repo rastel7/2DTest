@@ -123,6 +123,7 @@
     <ClCompile Include="Sources\Stage.cpp" />
     <ClCompile Include="Sources\System.cpp" />
     <ClCompile Include="Sources\FontManager.cpp" />
+    <ClCompile Include="Sources\TileMapRenderer.cpp" />
     <ClCompile Include="Sources\Title.cpp" />
     <ClCompile Include="Sources\Transform.cpp" />
     <ClCompile Include="Sources\UpdateComponent.cpp" />
@@ -177,6 +178,7 @@
     <Text Include="App\example\txt\kr.txt" />
     <Text Include="App\example\txt\sc.txt" />
     <Text Include="App\example\video\river.txt" />
+    <Text Include="App\Resources\Tilemap\Image\tile.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
@@ -306,6 +308,7 @@
     <None Include="App\example\toml\config.toml" />
     <None Include="App\example\toml\test.toml" />
     <None Include="App\example\zip\zip_test.zip" />
+    <None Include="App\Resources\Tilemap\CSV\TestStage.csv" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="App\example\shot.mp3" />
@@ -334,6 +337,7 @@
     <ClInclude Include="Headers\System.h" />
     <ClInclude Include="Headers\FontManager.h" />
     <ClInclude Include="Headers\Game.h" />
+    <ClInclude Include="Headers\TileMapRenderer.h" />
     <ClInclude Include="Headers\Title.h" />
     <ClInclude Include="Headers\Transform.h" />
     <ClInclude Include="Headers\UpdateComponent.h" />
