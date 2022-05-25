@@ -124,6 +124,7 @@
     <ClCompile Include="Sources\System.cpp" />
     <ClCompile Include="Sources\FontManager.cpp" />
     <ClCompile Include="Sources\Title.cpp" />
+    <ClCompile Include="Sources\Transform.cpp" />
     <ClCompile Include="Sources\UpdateComponent.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -334,6 +335,7 @@
     <ClInclude Include="Headers\FontManager.h" />
     <ClInclude Include="Headers\Game.h" />
     <ClInclude Include="Headers\Title.h" />
+    <ClInclude Include="Headers\Transform.h" />
     <ClInclude Include="Headers\UpdateComponent.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

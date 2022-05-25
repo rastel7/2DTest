@@ -201,6 +201,9 @@
     <ClCompile Include="Sources\UpdateComponent.cpp">
       <Filter>Source Files\Actor\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Transform.cpp">
+      <Filter>Source Files\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -865,6 +868,9 @@
     </ClInclude>
     <ClInclude Include="Headers\UpdateComponent.h">
       <Filter>Header Files\Actor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Transform.h">
+      <Filter>Header Files\Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
