@@ -15,7 +15,7 @@ public:
 	Actor(Ptr<Stage> _m_stage);
 	virtual ~Actor();
 	void Update();
-	void Draw() const;
+	std::vector<Ptr<DrawComponent>>  Actor::Draw() const;
 	void AddComponent(Ptr<Component> _component);
 	template<class T>
 	inline  Ptr<T> GetComponent() {//コンポーネントを検索して一番最初にマッチしたものを返す

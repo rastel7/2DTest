@@ -50,7 +50,7 @@ TileMap::TileMap(String _mapname, Ptr<Actor> _mactorptr):DrawComponent(_mactorpt
 		CreateMapCollision(tmp_Tile_ID);
 		collision.CreateCollisionTexture();
 	}
-
+	mpriority = -10;
 }
 
 void TileMap::CreateMapTexture(Texture const& _tile, std::vector<std::vector<u_int16 >> const& ids) {

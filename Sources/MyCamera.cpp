@@ -32,6 +32,6 @@ Camera2D MyCamera::GetCamera() const {
 	return camera;
 }
 
-MyCamera::MyCamera(Ptr<Stage> _stage):stage(_stage) {
+MyCamera::MyCamera(Stage* _stage):stage(_stage) {
 
 }

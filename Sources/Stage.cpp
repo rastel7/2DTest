@@ -6,8 +6,8 @@
 #include"SpriteRenderer.h"
 #include"PlayerComponent.h"
 #include"Transform.h"
-Stage::Stage(const InitData& init) : IScene{ init },camera(Ptr<Stage>(this)) {
-	/*
+Stage::Stage(const InitData& init) : IScene{ init },camera(this) {
+	
 	{
 		auto actor = Ptr<Actor>(new Actor(Ptr<Stage>(this)));
 		actor->AddComponent(Ptr<Component>(new TileMap(U"TestStage",Ptr<Actor>(actor))));
@@ -19,7 +19,7 @@ Stage::Stage(const InitData& init) : IScene{ init },camera(Ptr<Stage>(this)) {
 		actor->AddComponent(Ptr<Player>(new Player(Transform(0,0), actor)));
 		actors.insert(actor);
 	}
-	*/
+	
 }
 
 void Stage::update() {
@@ -50,3 +50,4 @@ Stage::~Stage() {//なぜか二回呼ばれてる
 	zero++;
 	actors.clear();
 }
+
