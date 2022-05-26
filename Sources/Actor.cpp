@@ -1,17 +1,19 @@
 ﻿#include"Actor.h"
 #include"Component.h"
 #include"DrawComponent.h"
-void Actor::Draw() const {
-	
+#include"UpdateComponent.h"
+#include"Stage.h"
+std::vector<Ptr<DrawComponent>>  Actor::Draw() const {
+	std::vector<Ptr<DrawComponent>> draw_events;
 	for (auto &ptr : components) {
 		auto draw_component = std::dynamic_pointer_cast<DrawComponent>(ptr);
 
 		if (draw_component != nullptr) {
-			draw_component->Draw();
+			draw_events.emplace_back(std::dynamic_pointer_cast<DrawComponent>(ptr));
 		}
 		
 	}
-	
+	return draw_events;
 }
 
 Actor::~Actor() {
@@ -19,9 +21,13 @@ Actor::~Actor() {
 }
 void Actor::Update() {
 	UpdateComponentOrder();
-	for (auto ptr : components) {
-		auto pri =ToString(ptr->GetPriority());
-		Print << U"{} {}"_fmt(ptr->name, pri);
+	for (auto& ptr : components) {
+		auto update_component = std::dynamic_pointer_cast<UpdateComponent>(ptr);
+
+		if (update_component != nullptr) {
+			update_component->Update();
+		}
+
 	}
 }
 

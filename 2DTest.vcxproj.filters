@@ -213,6 +213,15 @@
     <ClCompile Include="Sources\MyCamera.cpp">
       <Filter>Source Files\etc</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\SpriteRenderer.cpp">
+      <Filter>Source Files\Actor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\PlayerComponent.cpp">
+      <Filter>Source Files\Actor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Collision.cpp">
+      <Filter>Source Files\Actor\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -892,6 +901,15 @@
     </ClInclude>
     <ClInclude Include="Headers\MyCamera.h">
       <Filter>Header Files\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\SpriteRenderer.h">
+      <Filter>Header Files\Actor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\PlayerComponent.h">
+      <Filter>Header Files\Actor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Collision.h">
+      <Filter>Header Files\Actor\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,14 +2,13 @@
 #include"Title.h"
 #include"Stage.h"
 Game::Game() {
-	manager.add<Title>(U"Title");
-	manager.add<Stage>(U"Stage");
+	//manager.add<Title>(SceneState::Title);
+	manager.add<Stage>(SceneState::Stage);
 }
 
-bool Game::Update() {
+void Game::Update() {
 	ClearPrint();
 	inputmanager.Update();
 	inputmanager.DebugDraw();
 	manager.update();
-	return true;
 }
