@@ -3,6 +3,7 @@
 #include"Transform.h"
 class Component;
 class Stage;
+class DrawComponent;
 class Actor {
 	int _componentNum = -1;
 	std::vector<Ptr<Component>> components;
@@ -15,7 +16,7 @@ public:
 	Actor(Ptr<Stage> _m_stage);
 	virtual ~Actor();
 	void Update();
-	std::vector<Ptr<DrawComponent>>  Actor::Draw() const;
+	std::vector<Ptr<DrawComponent>>  Draw() const;
 	void AddComponent(Ptr<Component> _component);
 	template<class T>
 	inline  Ptr<T> GetComponent() {//コンポーネントを検索して一番最初にマッチしたものを返す

@@ -25,5 +25,5 @@ Sprite::~Sprite() {
 void Sprite::Draw() const{
 	Transform transform=Component::mactorptr->GetTransform();
 	Vec2 position = mactorptr->GetStage()->GamePositiontoWorldPosition(transform.m_position);
-	m_tex_regions[m_tex_id].draw(Arg::bottomCenter(position.x, position.x));
+	m_tex_regions[m_tex_id].draw(Arg::bottomCenter(position.x, position.y));
 }
