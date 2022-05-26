@@ -48,7 +48,9 @@ TileMap::TileMap(String _mapname, Ptr<Actor> _mactorptr):DrawComponent(_mactorpt
 			tmp_Tile_ID.emplace_back(tmp_column);
 		}
 		CreateMapCollision(tmp_Tile_ID);
+		collision.CreateCollisionTexture();
 	}
+
 }
 
 void TileMap::CreateMapTexture(Texture const& _tile, std::vector<std::vector<u_int16 >> const& ids) {
@@ -84,8 +86,55 @@ void TileMap::CreateMapCollision(std::vector<std::vector<u_int16>> collision_csv
 	}
 }
 TileMap::~TileMap() {
-
+	
 }
 void TileMap::Draw() const {
-	rendertexture.draw(0, 0);
+	rendertexture.draw(Arg::bottomLeft(0,0));
+	
+	#ifdef DEBUG
+	{
+		collision.collisiontexture.draw(Arg::bottomLeft(0, 0));
+	}
+	#endif // !DEBUG
+
+}
+
+Size TileMap::GetTextureSize() const {
+	return rendertexture.size();
+}
+
+//通行不可:1 通行可能:0
+u_int16 TileMap::GetColID(Vec2 position) const {
+	position.x *= Const::TILE_MASU_SIZE, position.y *= Const::TILE_MASU_SIZE;
+	if (position.x < 0 || position.y || position.x >= collision.collisiontexture.size().x || position.y >= collision.collisiontexture.size().y) {
+		return 1;
+	}
+	Color color = collision.collisionimage.getPixel(position.x, position.x, ImageAddressMode::BorderWhite);
+	float max = Max({color.r,color.g,color.b});
+	return max > 0.5;
+}
+//Collision
+
+void TileMapCollision::CreateCollisionTexture() {
+	collisionimage = { collision_type[0].size() * Const::TILE_MASU_SIZE, collision_type.size() * Const::TILE_MASU_SIZE };
+	// レンダーターゲットを renderTexture に変更
+	for (int y = 0; y < collision_type.size(); ++y) {
+		for (int x = 0; x < collision_type[y].size(); ++x) {
+			auto id = collision_type[y][x];
+			int pos_y = y * Const::TILE_MASU_SIZE;
+			int pos_x = x * Const::TILE_MASU_SIZE;
+			ColorF color=ColorF(0,0,0,0);
+			switch (id) {
+			case 1:
+				color = ColorF(0.9, 0.2, 0.2, 0.2);
+				break;
+			default:
+				Logger << 0;
+				break;
+			}
+			Rect(pos_x, pos_y, Const::TILE_MASU_SIZE, Const::TILE_MASU_SIZE).overwrite(collisionimage,color);
+			
+		}
+	}
+	collisiontexture = Texture{ collisionimage };
 }

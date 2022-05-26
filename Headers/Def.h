@@ -4,6 +4,8 @@
 #include"System.h"
 #include"FontManager.h"
 #include"InputManager.h"
+
+#define DEBUG
 //定数
 namespace Const {
 	extern const int DEFAULT_FONT_SIZE;
@@ -27,3 +29,4 @@ using App = SceneManager<String>;
 
 template <class T>
 using Ptr = std::shared_ptr<T>;
+

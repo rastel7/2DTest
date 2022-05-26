@@ -4,6 +4,9 @@
 #include"UpdateComponent.h"
 class TileMapCollision {
 public:
+	Texture collisiontexture;
+	void CreateCollisionTexture();
+	Image collisionimage;
 	std::vector<std::vector<u_int16>> collision_type;
 };
 
@@ -18,6 +21,8 @@ class TileMap: public DrawComponent  {
 public:
 	TileMap(String _mapname,Ptr<Actor> _mactorptr);
 	virtual ~TileMap();
-	void Draw() const override; 
+	void Draw() const override;
+	Size GetTextureSize() const;
+	u_int16 GetColID(Vec2 position) const;
 };
 

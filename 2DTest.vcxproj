@@ -120,6 +120,7 @@
     <ClCompile Include="Sources\Def.cpp" />
     <ClCompile Include="Sources\DrawComponent.cpp" />
     <ClCompile Include="Sources\InputManager.cpp" />
+    <ClCompile Include="Sources\MyCamera.cpp" />
     <ClCompile Include="Sources\Stage.cpp" />
     <ClCompile Include="Sources\System.cpp" />
     <ClCompile Include="Sources\FontManager.cpp" />
@@ -333,6 +334,7 @@
     <ClInclude Include="Headers\Def.h" />
     <ClInclude Include="Headers\DrawComponent.h" />
     <ClInclude Include="Headers\InputManager.h" />
+    <ClInclude Include="Headers\MyCamera.h" />
     <ClInclude Include="Headers\Stage.h" />
     <ClInclude Include="Headers\System.h" />
     <ClInclude Include="Headers\FontManager.h" />

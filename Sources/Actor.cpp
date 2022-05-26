@@ -14,6 +14,9 @@ void Actor::Draw() const {
 	
 }
 
+Actor::~Actor() {
+
+}
 void Actor::Update() {
 	UpdateComponentOrder();
 	for (auto ptr : components) {
@@ -22,7 +25,7 @@ void Actor::Update() {
 	}
 }
 
-Actor::Actor() {
+Actor::Actor(Ptr<Stage> _m_stage):m_stage(_m_stage) {
 
 }
 
@@ -40,3 +43,4 @@ void Actor::UpdateComponentOrder() {
 		});
 	}
 }
+
