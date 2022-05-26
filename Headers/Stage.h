@@ -1,13 +1,15 @@
 ﻿#pragma once
 #include"Def.h"
 #include"MyCamera.h"
+#include"Transform.h"
 class Actor;
 class Stage:public  App::Scene {
 	std::set<Ptr<Actor>> actors;
 	MyCamera camera;
+	int zero = 0;
 public:
-	friend Actor;
 	Stage(const InitData& init);
+	virtual ~Stage();
 	void update() override;
 	void draw()const override;
 	template<class T>
@@ -21,4 +23,5 @@ public:
 		}
 		return ret;
 	}
+	Vec2 GamePositiontoWorldPosition(Vec2 const& _position) const;
 };

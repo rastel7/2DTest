@@ -1,6 +1,7 @@
 ﻿#include"Actor.h"
 #include"Component.h"
 #include"DrawComponent.h"
+#include"UpdateComponent.h"
 void Actor::Draw() const {
 	
 	for (auto &ptr : components) {
@@ -19,9 +20,13 @@ Actor::~Actor() {
 }
 void Actor::Update() {
 	UpdateComponentOrder();
-	for (auto ptr : components) {
-		auto pri =ToString(ptr->GetPriority());
-		Print << U"{} {}"_fmt(ptr->name, pri);
+	for (auto& ptr : components) {
+		auto update_component = std::dynamic_pointer_cast<UpdateComponent>(ptr);
+
+		if (update_component != nullptr) {
+			update_component->Update();
+		}
+
 	}
 }
 

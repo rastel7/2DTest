@@ -2,10 +2,13 @@
 #include"Def.h"
 class Component;
 class Transform {
-	Vector2D<float> m_position;
 public:
+	Vector2D<float> m_position;
 	Transform();
 	template<class T>
-	Transform(T x, T y);
+	inline Transform(T x, T y) :m_position(float(x), float(y)) {
+
+	}
+
 	friend Component;
 };

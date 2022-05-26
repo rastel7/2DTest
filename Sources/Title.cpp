@@ -5,9 +5,12 @@ Title::Title(const InitData& init): IScene{ init }
 
 }
 
+Title::~Title() {
+	Logger << U"Title::~Title()";
+}
 void Title::update() {
 	if (inputmanager.GetEdgePressed(PadButtonNumber::Ok)) {
-		changeScene(U"Stage");
+		changeScene(SceneState::Stage);
 	}
 	if (inputmanager.GetEdgePressed(PadButtonNumber::Jump)) {
 		System::Exit();
