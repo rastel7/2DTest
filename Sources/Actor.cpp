@@ -27,8 +27,9 @@ void Actor::Update() {
 		if (update_component != nullptr) {
 			update_component->Update();
 		}
-
 	}
+	//Transformの更新
+	m_transform.Update(m_stage->GetMapSize());
 }
 
 Actor::Actor(Ptr<Stage> _m_stage):m_stage(_m_stage) {

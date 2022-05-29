@@ -101,7 +101,17 @@ void TileMap::Draw() const {
 		//collision.collisiontexture.draw(Arg::bottomLeft(0, 0));
 	}
 	#endif // !DEBUG
-
+	#ifdef LOOP_MAP
+	Vec2 size = mactorptr->GetStage()->GamePositiontoWorldPosition(mactorptr->GetStage()->GetMapSize());
+	int dd[3] = { -1,0,1 };
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			if (i == 1 && j == 1)continue;
+			rendertexture.draw(Arg::bottomLeft(0+size.x*dd[i], 0+size.y*dd[j]));
+		}
+	}
+	#endif
+	
 }
 
 Size TileMap::GetTextureSize() const {

@@ -26,5 +26,7 @@ public:
 	void Draw() const override;
 	Size GetTextureSize() const;
 	u_int16 GetColID(Vec2 position) const;
+	inline GameSize GetMapSize() const { return GameSize{m_map_size.x,m_map_size.y };
+}
 };
 

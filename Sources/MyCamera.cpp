@@ -17,8 +17,10 @@ void MyCamera::Update() {
 	Ptr<TileMap> tilemap = stage->GetComponent<TileMap>();
 	if (tilemap == nullptr)return;
 	//カメラが領域外を移していたら変更
+	
 	Size texture_size = tilemap.get()->GetTextureSize();
 	auto now_camera_center = camera.getCenter();
+	/*
 	if (now_camera_center.x < SystemNum::WindowWidth / 2) {
 		now_camera_center.x = SystemNum::WindowWidth / 2;
 	}
@@ -31,6 +33,7 @@ void MyCamera::Update() {
 	if (now_camera_center.y < -texture_size.y + SystemNum::WindowHeight / 2) {
 		now_camera_center.y = -texture_size.y + SystemNum::WindowHeight / 2;
 	}
+	*/
 	Print << U"Camera_Center:{}"_fmt(now_camera_center);
 	if (now_camera_center != camera.getCenter()) {
 		//camera.jumpTo(now_camera_center, 1.0f);

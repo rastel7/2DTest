@@ -23,60 +23,115 @@ void Collision::Draw()const {
 
 }
 CollisionParameter Collision::GetCollisionParameter() const {
-	CollisionParameter ret{ m_size,m_col_id,mactorptr->GetTransform() };
+	CollisionParameter ret{ m_size,m_col_id,mactorptr->GetTransform(),mactorptr->GetStage()->GetMapSize() };
 	return ret;
 }
 
 
 CollisionParameter Collision::GetLargeCollisionParameter() const {
-	CollisionParameter ret{m_size*1.5f,m_col_id,mactorptr->GetTransform()};
+	CollisionParameter ret{m_size*1.5f,m_col_id,mactorptr->GetTransform(),mactorptr->GetStage()->GetMapSize() };
 	return ret;
 }
 
 
 CollisionParameter::LeftUpandBottomDown CollisionParameter::GetLeftandBottom() const {
-	return CollisionParameter::LeftUpandBottomDown{transform.m_position.x-(float)m_size.x/2.0f,transform.m_position.y + (float)m_size.y / 2.0f, transform.m_position.x + (float)m_size.x / 2.0f, transform.m_position.y - (float)m_size.y / 2.0f,};
+	auto ret = CollisionParameter::LeftUpandBottomDown{ transform.m_position.x - (float)m_size.x / 2.0f,transform.m_position.y + (float)m_size.y / 2.0f, transform.m_position.x + (float)m_size.x / 2.0f, transform.m_position.y - (float)m_size.y / 2.0f, };
+	return ret;
+}
+std::vector<CollisionParameter::LeftUpandBottomDown> CollisionParameter::GetCorrectionLB(LeftUpandBottomDown const& lb)const {
+	using LB = CollisionParameter::LeftUpandBottomDown;
+	std::vector<LB> check_list = { lb };
+	//判定が領域外に出ている場合，それに対応してズラしたコリジョンを判定に加える
+	if (lb.lx < 0) {
+		auto tmp = lb;
+		tmp.lx += stage_size.x;
+		tmp.rx += stage_size.x;
+		check_list.emplace_back(tmp);
+	}
+	if (lb.rx > stage_size.x) {
+		Print << U"HOGE";
+		auto tmp = lb;
+		tmp.lx -= stage_size.x;
+		tmp.rx -= stage_size.x;
+		check_list.emplace_back(tmp);
+	}
+	if (lb.ly > stage_size.y) {
+		auto tmp = lb;
+		tmp.ly -= stage_size.y;
+		tmp.ry -= stage_size.y;
+		check_list.emplace_back(tmp);
+	}
+	if (lb.ry < 0) {
+		auto tmp = lb;
+		tmp.ly += stage_size.y;
+		tmp.ry += stage_size.y;
+		check_list.emplace_back(tmp);
+	}
+	return check_list;
 }
 bool CollisionParameter::isHit(CollisionParameter const& r) const {
+	using LB = CollisionParameter::LeftUpandBottomDown;
 	auto l_ub = this->GetLeftandBottom();
 	auto r_ub = r.GetLeftandBottom();
-	if (l_ub.rx < r_ub.lx)return false;
-	if (l_ub.lx > r_ub.rx)return false;
-	if (l_ub.ly < r_ub.ry)return false;
-	if (l_ub.ry > r_ub.ly)return false;
-	return true;
+	std::vector<LB> check_list = GetCorrectionLB(l_ub);
+	bool ret = false;
+	auto check = [](LB const& l_ub, LB const& r_ub) {
+		if (l_ub.rx < r_ub.lx)return false;
+		if (l_ub.lx > r_ub.rx)return false;
+		if (l_ub.ly < r_ub.ry)return false;
+		if (l_ub.ry > r_ub.ly)return false;
+		return true;
+	};
+	for (auto const& l : check_list) {
+		ret |= check(l, r_ub);
+	}
+	if (check_list.size() >= 2||l_ub.lx<0) {
+		Print << U"OOO{}"_fmt(check_list.size());
+	}
+	return ret;
 }
 GameSize CollisionParameter::GetMinBounds(CollisionParameter const& r) const {
+	using LB = CollisionParameter::LeftUpandBottomDown;
 	GameSize ret{0,0};
 	float min = 1e9;
 	auto l_ub = this->GetLeftandBottom();
 	auto r_ub = r.GetLeftandBottom();
-	{//上
-		float abs = Abs(l_ub.ly - r_ub.ry);
-		if (abs < min) {
-			min = abs;
-			ret = GameSize(0.0,l_ub.ly - r_ub.ry);
+	auto make_mod = [&](LB& x) {
+		x.lx = fmod((x.lx + stage_size.x) , stage_size.x);
+		x.rx = fmod((x.rx + stage_size.x), stage_size.x);
+		x.ly = fmod((x.ly + stage_size.y), stage_size.y);
+		x.ry = fmod((x.ry + stage_size.y), stage_size.y);
+	};
+	//make_mod(l_ub);
+	//make_mod(r_ub);
+	for (auto const& l_b : GetCorrectionLB(l_ub)) {
+		{//上
+			float abs = Abs(l_b.ly - r_ub.ry);
+			if (abs < min) {
+				min = abs;
+				ret = GameSize(0.0, l_b.ly - r_ub.ry);
+			}
 		}
-	}
-	{//下
-		float abs = Abs(l_ub.ry - r_ub.ly);
-		if (abs < min) {
-			min = abs;
-			ret = GameSize(0.0,l_ub.ry - r_ub.ly);
+		{//下
+			float abs = Abs(l_b.ry - r_ub.ly);
+			if (abs < min) {
+				min = abs;
+				ret = GameSize(0.0, l_b.ry - r_ub.ly);
+			}
 		}
-	}
-	{//左
-		float abs = Abs(l_ub.lx - r_ub.rx);
-		if (abs < min) {
-			min = abs;
-			ret = GameSize(l_ub.lx - r_ub.rx, 0.0);
+		{//左
+			float abs = Abs(l_b.lx - r_ub.rx);
+			if (abs < min) {
+				min = abs;
+				ret = GameSize(l_b.lx - r_ub.rx, 0.0);
+			}
 		}
-	}
-	{//右
-		float abs = Abs(l_ub.rx - r_ub.lx);
-		if (abs < min) {
-			min = abs;
-			ret = GameSize(l_ub.rx - r_ub.lx, 0.0);
+		{//右
+			float abs = Abs(l_b.rx - r_ub.lx);
+			if (abs < min) {
+				min = abs;
+				ret = GameSize(l_b.rx - r_ub.lx, 0.0);
+			}
 		}
 	}
 	return ret;

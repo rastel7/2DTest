@@ -82,3 +82,11 @@ std::vector<Ptr<Collision>> Stage::GetCollisions() const {
 	}
 	return ret;
 }
+
+GameSize Stage::GetMapSize() const {
+	Ptr<TileMap> stage = GetComponent<TileMap>();
+	if (stage == nullptr){
+		return GameSize{0,0};
+	}
+	return stage->GetMapSize();
+}
