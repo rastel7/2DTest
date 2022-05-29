@@ -49,7 +49,7 @@ std::vector<Ptr<Collision>> CollisionManager::GetNearCollision(Ptr<Collision> co
 		
 		if (l_param.m_size.x/2.0+param.m_size.x/2.0 < std::min<float>(dist1,dist2)) {
 			if (l_param.transform.m_position.x > param.transform.m_position.x) {
-				//break;
+				break;
 			}
 		}
 		else {
@@ -60,8 +60,36 @@ std::vector<Ptr<Collision>> CollisionManager::GetNearCollision(Ptr<Collision> co
 			itr = colls.end();
 		}
 		itr--;
-		
 	}
+	itr = start; checkedStart = 0;
+	while (true) {
+		//ループしている
+
+		if (start == itr && checkedStart) {
+			break;
+		}
+
+		checkedStart = true;
+		//採用するかどうかの判断
+		auto ptr = (*itr).second;
+		auto param = ptr->GetCollisionParameter();
+		auto dist1 = std::abs(l_param.transform.m_position.x - param.transform.m_position.x);
+		auto dist2 = std::abs(dist1 - stage->GetMapSize().x);
+		auto left = param.transform.m_position.x - param.m_size.x;
+
+		if ((l_param.m_size.x / 2.0 + param.m_size.x / 2.0)*1.2f < std::min<float>(dist1, dist2)) {
+				break;
+		}
+		else {
+			ret.emplace_back((*itr).second);
+		}
+
+		itr++;
+		if (itr == colls.end()) {
+			itr = colls.begin();
+		}
+	}
+
 	Print << U"CollEnd:{}"_fmt(itr - colls.begin());
 	return ret;
 }
