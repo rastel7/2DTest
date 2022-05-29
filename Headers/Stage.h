@@ -16,7 +16,7 @@ public:
 	void update() override;
 	void draw()const override;
 	template<class T>
-	inline  Ptr<T> GetComponent() {//コンポーネントを検索して一番最初にマッチしたものを返す
+	inline  Ptr<T> GetComponent() const {//コンポーネントを検索して一番最初にマッチしたものを返す
 		Ptr<T> ret;
 		for (auto ptr : actors) {
 			auto pt = ptr->GetComponent<T>();
@@ -26,6 +26,7 @@ public:
 		}
 		return ret;
 	}
+	GameSize GetMapSize() const;
 	std::vector<CollisionParameter> GetCollisionParameters() const;
 	std::vector<Ptr<Collision>> GetCollisions() const;
 	Vec2 GamePositiontoWorldPosition(Vec2 const& _position) const;

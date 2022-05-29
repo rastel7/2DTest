@@ -26,26 +26,30 @@ std::vector<Ptr<Collision>> CollisionManager::GetNearCollision(Ptr<Collision> co
 	});
 	Print << U"CollStart:{}"_fmt(itr - colls.begin());
 	col->SetSize(prev_size);//大きさを戻す
-	auto start = itr;
 	auto l_param = col->GetCollisionParameter();
 	bool checkedStart = false;
-	
-	while (itr != colls.end()) {
+	if (itr == colls.end()) {
+		itr--;
+	}
+	auto start = itr;
+	while (true) {
 		//ループしている
 		
 		if (start == itr&& checkedStart) {
 			break;
 		}
+		
 		checkedStart = true;
 		//採用するかどうかの判断
 		auto ptr = (*itr).second;
 		auto param = ptr->GetCollisionParameter();
-		auto dist = std::abs(l_param.transform.m_position.x-param.transform.m_position.x);
+		auto dist1 = std::abs(l_param.transform.m_position.x-param.transform.m_position.x);
+		auto dist2 = std::abs(dist1 - stage->GetMapSize().x);
 		auto left = param.transform.m_position.x - param.m_size.x;
 		
-		if (l_param.m_size.x/2.0+param.m_size.x/2.0 < dist) {
+		if (l_param.m_size.x/2.0+param.m_size.x/2.0 < std::min<float>(dist1,dist2)) {
 			if (l_param.transform.m_position.x > param.transform.m_position.x) {
-				break;
+				//break;
 			}
 		}
 		else {

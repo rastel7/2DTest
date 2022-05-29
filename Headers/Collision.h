@@ -29,10 +29,13 @@ struct CollisionParameter {
 	GameSize m_size;
 	int m_col_id;
 	Transform transform;
+	GameSize stage_size;
 	bool isHit(CollisionParameter const& r) const;
 	LeftUpandBottomDown GetLeftandBottom() const;
 	//最小の被っている領域を返す
 	GameSize GetMinBounds(CollisionParameter const& r) const;
+	//画面外に判定の一部が出ていた場合，それに対応してズラしたコリジョンを加えたvectorを返す
+	std::vector<LeftUpandBottomDown> GetCorrectionLB(LeftUpandBottomDown const& lb)const;
 };
 //コリジョンの衝突解消を行う
 class CollisionUpdater :public UpdateComponent {

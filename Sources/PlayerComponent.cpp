@@ -2,6 +2,7 @@
 #include"Actor.h"
 #include"SpriteRenderer.h"
 #include"Collision.h"
+#include"Stage.h"
 Player::Player(Transform _transform, Ptr<Actor> _ptr):UpdateComponent(_ptr) {
 	mactorptr->SetTransform(_transform);
 	mactorptr->AddComponent(Ptr<Component>(new Sprite(U"Chara", 48, 64, mactorptr)));
@@ -32,6 +33,7 @@ void Player::Move() {
 		transform.m_position.x += 0.05; doMove = 1;
 		m_prop.isLeft = false;
 	}
+	
 	mactorptr->SetTransform(transform);
 	if (doMove) {
 		m_prop.MovingTime++;
