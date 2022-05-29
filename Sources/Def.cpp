@@ -15,3 +15,4 @@ namespace SystemNum {
 }
 FontManager fontmanager;
 InputManager inputmanager;
+IndexManager<int> collision_id_manager;

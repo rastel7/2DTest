@@ -225,6 +225,9 @@
     <ClCompile Include="Sources\RigidBody.cpp">
       <Filter>Source Files\Actor\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\CollisionManager.cpp">
+      <Filter>Source Files\Actor\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -915,6 +918,12 @@
       <Filter>Header Files\Actor\Components</Filter>
     </ClInclude>
     <ClInclude Include="Headers\RigidBody.h">
+      <Filter>Header Files\Actor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\IndexManager.h">
+      <Filter>Header Files\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\CollisionManager.h">
       <Filter>Header Files\Actor\Components</Filter>
     </ClInclude>
   </ItemGroup>

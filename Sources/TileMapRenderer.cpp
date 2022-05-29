@@ -1,4 +1,7 @@
 ﻿#include"TileMapRenderer.h"
+#include"Actor.h"
+#include"Stage.h"
+#include"Collision.h"
 TileMap::TileMap(String _mapname, Ptr<Actor> _mactorptr):DrawComponent(_mactorptr),m_mapname(_mapname) {
 	const String image_path = Const::TILEMAP_IMAGE_PATH + m_mapname + U".png";
 	const Texture tilemap_image(image_path);
@@ -47,8 +50,10 @@ TileMap::TileMap(String _mapname, Ptr<Actor> _mactorptr):DrawComponent(_mactorpt
 			}
 			tmp_Tile_ID.emplace_back(tmp_column);
 		}
+		
 		CreateMapCollision(tmp_Tile_ID);
-		collision.CreateCollisionTexture();
+		collision.m_Tile_ID = &m_Tile_ID;
+		collision.CreateCollisionTexture(mactorptr);
 	}
 	mpriority = -10;
 }
@@ -79,8 +84,8 @@ void TileMap::CreateMapCollision(std::vector<std::vector<u_int16>> collision_csv
 		collision.collision_type[y].resize(MAX_X);
 		for (int x = 0; x < m_Tile_ID[y].size(); ++x) {
 			int id = m_Tile_ID[y][x];
-			int tile_y = id % m_Tile_ID[y].size();
-			int tile_x = id / m_Tile_ID[y].size();
+			int tile_y = id / collision_csv[0].size();
+			int tile_x = id % collision_csv[0].size();
 			collision.collision_type[y][x] = collision_csv[tile_y][tile_x];
 		}
 	}
@@ -93,7 +98,7 @@ void TileMap::Draw() const {
 	
 	#ifdef DEBUG
 	{
-		collision.collisiontexture.draw(Arg::bottomLeft(0, 0));
+		//collision.collisiontexture.draw(Arg::bottomLeft(0, 0));
 	}
 	#endif // !DEBUG
 
@@ -115,11 +120,18 @@ u_int16 TileMap::GetColID(Vec2 position) const {
 }
 //Collision
 
-void TileMapCollision::CreateCollisionTexture() {
+void TileMapCollision::CreateCollisionTexture(Ptr<Actor> actor) {
+	auto stage = actor->GetStage();
+
+	
 	collisionimage = { collision_type[0].size() * Const::TILE_MASU_SIZE, collision_type.size() * Const::TILE_MASU_SIZE };
+	
 	// レンダーターゲットを renderTexture に変更
 	for (int y = 0; y < collision_type.size(); ++y) {
 		for (int x = 0; x < collision_type[y].size(); ++x) {
+			//int tile_id = (*m_Tile_ID)[y][x];
+			//int t_y = tile_id / (collision_type[0].size());
+			//int t_x = tile_id % (collision_type[0].size());
 			auto id = collision_type[y][x];
 			int pos_y = y * Const::TILE_MASU_SIZE;
 			int pos_x = x * Const::TILE_MASU_SIZE;
@@ -127,9 +139,15 @@ void TileMapCollision::CreateCollisionTexture() {
 			switch (id) {
 			case 1:
 				color = ColorF(0.9, 0.2, 0.2, 0.2);
+				{//ステージにコリジョンをもったアクターを追加
+					Ptr<Actor> new_actor(new Actor(stage));
+					//auto screenpositon = pos_x + pos_x * 0.5, pos_y + pos_y * 0.5;
+					new_actor->SetTransform(Transform{(float)x+0.5f,collision_type.size()-((float)y+0.5f)});
+					new_actor->AddComponent(Ptr<Component>(new Collision(GameSize{1.0f,1.0f},true, new_actor)));
+					stage->AddActor(new_actor);
+				}
 				break;
 			default:
-				Logger << 0;
 				break;
 			}
 			Rect(pos_x, pos_y, Const::TILE_MASU_SIZE, Const::TILE_MASU_SIZE).overwrite(collisionimage,color);

@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include"Def.h"
 class Actor;
+class Transform;
 class Component {
 protected:
 	Ptr<Actor> mactorptr;
@@ -13,6 +14,6 @@ public:
 	String name;
 	__int8  mpriority=0;
 	__int8 GetPriority() const;
+	Transform GetTransform() const;
 };
 
-bool CompPtrComponent(Ptr<Component>const& l, Ptr<Component> const& r);
