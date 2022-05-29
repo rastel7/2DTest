@@ -4,7 +4,7 @@
 #include"System.h"
 #include"FontManager.h"
 #include"InputManager.h"
-
+#include"IndexManager.h"
 #define DEBUG
 //定数
 namespace Const {
@@ -21,12 +21,13 @@ namespace SystemNum {
 	extern int WindowHeight;
 	extern int RerolutionRate;
 }
-
+extern IndexManager<int> collision_id_manager;
 extern FontManager fontmanager;
 extern InputManager inputmanager;
 
 using u_int16 = unsigned __int16;
-
+using GameVec2 = Vector2D<float>;
+using GameSize = Vec2;
 template <class T>
 using Ptr = std::shared_ptr<T>;
 

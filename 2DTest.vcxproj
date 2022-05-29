@@ -117,6 +117,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Sources\Actor.cpp" />
     <ClCompile Include="Sources\Collision.cpp" />
+    <ClCompile Include="Sources\CollisionManager.cpp" />
     <ClCompile Include="Sources\Component.cpp" />
     <ClCompile Include="Sources\Def.cpp" />
     <ClCompile Include="Sources\DrawComponent.cpp" />
@@ -335,9 +336,11 @@
   <ItemGroup>
     <ClInclude Include="Headers\Actor.h" />
     <ClInclude Include="Headers\Collision.h" />
+    <ClInclude Include="Headers\CollisionManager.h" />
     <ClInclude Include="Headers\Component.h" />
     <ClInclude Include="Headers\Def.h" />
     <ClInclude Include="Headers\DrawComponent.h" />
+    <ClInclude Include="Headers\IndexManager.h" />
     <ClInclude Include="Headers\InputManager.h" />
     <ClInclude Include="Headers\MyCamera.h" />
     <ClInclude Include="Headers\PlayerComponent.h" />

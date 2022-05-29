@@ -2,12 +2,15 @@
 #include"Def.h"
 #include"MyCamera.h"
 #include"Transform.h"
+#include"Collision.h"
+#include"CollisionManager.h"
 class Actor;
 class Stage:public  App::Scene {
 	std::set<Ptr<Actor>> actors;
 	MyCamera camera;
 	int zero = 0;
 public:
+	CollisionManager collisionmanager;
 	Stage(const InitData& init);
 	virtual ~Stage();
 	void update() override;
@@ -23,5 +26,8 @@ public:
 		}
 		return ret;
 	}
+	std::vector<CollisionParameter> GetCollisionParameters() const;
+	std::vector<Ptr<Collision>> GetCollisions() const;
 	Vec2 GamePositiontoWorldPosition(Vec2 const& _position) const;
+	inline void AddActor(Ptr<Actor> _actor) { actors.insert(_actor); }
 };

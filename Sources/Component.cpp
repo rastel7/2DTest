@@ -19,6 +19,7 @@ bool Component::operator<(Component const& r) {
 	return this->mpriority < r.mpriority;
 }
 
-bool CompPtrComponent(Ptr<Component>const& l, Ptr<Component> const& r) {
-	return l->GetPriority() < r->GetPriority();
+
+Transform Component::GetTransform() const {
+	return mactorptr->GetTransform();
 }
