@@ -61,11 +61,12 @@ std::vector<Ptr<Collision>> CollisionManager::GetNearCollision(Ptr<Collision> co
 		}
 		itr--;
 	}
+	auto prev_end = itr;
 	itr = start; checkedStart = 0;
 	while (true) {
 		//ループしている
 
-		if (start == itr && checkedStart) {
+		if ((start == itr && checkedStart)||itr==prev_end) {
 			break;
 		}
 
