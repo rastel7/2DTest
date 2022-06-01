@@ -4,9 +4,10 @@
 #include"Collision.h"
 #include"Stage.h"
 Player::Player(Transform _transform, Ptr<Actor> _ptr):UpdateComponent(_ptr) {
-	mactorptr->SetTransform(_transform);
-	mactorptr->AddComponent(Ptr<Component>(new Sprite(U"Chara", 48, 64, mactorptr)));
-	mactorptr->AddComponent(Ptr<Component>(new Collision(Vec2{ 1.0f, 1.8f },false, mactorptr)));
+	if (auto ptr = mactorptr.lock()) {
+		ptr->SetTransform(_transform);
+		ptr->AddComponent(Ptr<Component>(new Sprite(U"Chara", 48, 64, ptr)));
+	}
 
 }
 
@@ -17,7 +18,8 @@ void Player::Update() {
 }
 
 void Player::Move() {
-	Transform transform = mactorptr->GetTransform();
+	Ptr<Actor> ptr = mactorptr.lock();
+	Transform transform = ptr->GetTransform();
 	bool doMove = 0;
 	if (inputmanager.GetPressed(PadButtonNumber::Up)) {
 		transform.m_position.y += 0.05; doMove = 1;
@@ -34,7 +36,8 @@ void Player::Move() {
 		m_prop.isLeft = false;
 	}
 	
-	mactorptr->SetTransform(transform);
+	ptr->SetTransform(transform);
+	Print << transform.m_position;
 	if (doMove) {
 		m_prop.MovingTime++;
 	}
@@ -44,7 +47,7 @@ void Player::Move() {
 }
 void Player::SetComponents() {
 	if (m_player_sprite == nullptr) {
-		m_player_sprite = mactorptr->GetComponent<Sprite>();
+		m_player_sprite = mactorptr.lock()->GetComponent<Sprite>();
 	}
 }
 void Player::UpdatePlayerGraphics() {

@@ -7,7 +7,7 @@
 #include"PlayerComponent.h"
 #include"Transform.h"
 
-Stage::Stage(const InitData& init) : IScene{ init },camera(this),collisionmanager(this) {
+Stage::Stage(const InitData& init) : IScene{ init },camera(this) {
 	
 	{
 		auto actor = Ptr<Actor>(new Actor(Ptr<Stage>(this)));
@@ -19,21 +19,10 @@ Stage::Stage(const InitData& init) : IScene{ init },camera(this),collisionmanage
 		actor->AddComponent(Ptr<Player>(new Player(Transform(0,0), actor)));
 		actors.insert(actor);
 	}
-	for (int i = 0; i < 100; ++i) {
-		{
-			auto actor = Ptr<Actor>(new Actor(Ptr<Stage>(this)));
-			auto randpos = Transform();
-			randpos.m_position.x = RandomVec2(GetMapSize().x).x;
-			randpos.m_position.y = RandomVec2(GetMapSize().y).y;
-			actor->AddComponent(Ptr<Player>(new Player(randpos, actor)));
-			actors.insert(actor);
-		}
-	}
 	
 }
 
 void Stage::update() {
-	collisionmanager.Update();//コリジョン情報の更新
 	for (auto ptr : actors) {
 		ptr->Update();
 	}
@@ -64,34 +53,12 @@ Vec2 Stage::GamePositiontoWorldPosition(Vec2 const& _position) const {
 	ret.y -= _position.y * Const::TILE_MASU_SIZE;
 	return ret;
 }
-Stage::~Stage() {//なぜか二回呼ばれてる
+Stage::~Stage() {
 	Logger << U"Stage::~Stage():{}"_fmt(zero);
 	zero++;
-	actors.clear();
-}
-std::vector<CollisionParameter> Stage::GetCollisionParameters() const {
-	std::vector<CollisionParameter> ret;
-	for (auto ptr : actors) {
-		Ptr<Collision> col = ptr->GetComponent<Collision>();
-		if (col == nullptr) {
-			continue;
-		}
-		ret.emplace_back(col->GetCollisionParameter());
-	}
-	return ret;
 }
 
-std::vector<Ptr<Collision>> Stage::GetCollisions() const {
-	std::vector<Ptr<Collision>> ret;
-	for (auto ptr : actors) {
-		Ptr<Collision> col = ptr->GetComponent<Collision>();
-		if (col == nullptr) {
-			continue;
-		}
-		ret.emplace_back(col);
-	}
-	return ret;
-}
+
 
 GameSize Stage::GetMapSize() const {
 	Ptr<TileMap> stage = GetComponent<TileMap>();

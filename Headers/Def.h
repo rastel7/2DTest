@@ -6,7 +6,7 @@
 #include"InputManager.h"
 #include"IndexManager.h"
 #define DEBUG
-#define LOOP_MAP
+//#define LOOP_MAP
 //定数
 namespace Const {
 	extern const int DEFAULT_FONT_SIZE;

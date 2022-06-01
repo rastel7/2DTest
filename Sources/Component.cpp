@@ -21,5 +21,5 @@ bool Component::operator<(Component const& r) {
 
 
 Transform Component::GetTransform() const {
-	return mactorptr->GetTransform();
+	return mactorptr.lock()->GetTransform();
 }

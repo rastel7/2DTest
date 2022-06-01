@@ -53,7 +53,7 @@ TileMap::TileMap(String _mapname, Ptr<Actor> _mactorptr):DrawComponent(_mactorpt
 		
 		CreateMapCollision(tmp_Tile_ID);
 		collision.m_Tile_ID = &m_Tile_ID;
-		collision.CreateCollisionTexture(mactorptr);
+		collision.CreateCollisionTexture(mactorptr.lock());
 	}
 	mpriority = -10;
 }
@@ -153,7 +153,7 @@ void TileMapCollision::CreateCollisionTexture(Ptr<Actor> actor) {
 					Ptr<Actor> new_actor(new Actor(stage));
 					//auto screenpositon = pos_x + pos_x * 0.5, pos_y + pos_y * 0.5;
 					new_actor->SetTransform(Transform{(float)x+0.5f,collision_type.size()-((float)y+0.5f)});
-					new_actor->AddComponent(Ptr<Component>(new Collision(GameSize{1.0f,1.0f},true, new_actor)));
+					//new_actor->AddComponent(Ptr<Component>(new Collision(GameSize{1.0f,1.0f},true, new_actor)));
 					stage->AddActor(new_actor);
 				}
 				break;

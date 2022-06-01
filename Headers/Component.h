@@ -4,7 +4,7 @@ class Actor;
 class Transform;
 class Component {
 protected:
-	Ptr<Actor> mactorptr;
+	WPtr<Actor> mactorptr;
 	Component();
 public:
 	Component(Ptr<Actor> _mactorptr);
