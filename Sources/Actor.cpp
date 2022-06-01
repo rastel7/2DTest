@@ -32,7 +32,7 @@ void Actor::Update() {
 	m_transform.Update(m_stage->GetMapSize());
 }
 
-Actor::Actor(Ptr<Stage> _m_stage):m_stage(_m_stage) {
+Actor::Actor(Stage* _m_stage):m_stage(_m_stage) {
 
 }
 

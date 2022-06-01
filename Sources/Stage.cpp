@@ -7,15 +7,15 @@
 #include"PlayerComponent.h"
 #include"Transform.h"
 
-Stage::Stage(const InitData& init) : IScene{ init },camera(this) {
-	
+Stage::Stage(const InitData& init) : IScene{ init },camera(this){
+	col_manager = Ptr<CollisionManager>( new CollisionManager(this));
 	{
-		auto actor = Ptr<Actor>(new Actor(Ptr<Stage>(this)));
+		auto actor = Ptr<Actor>(new Actor(this));
 		actor->AddComponent(Ptr<Component>(new TileMap(U"TestStage",Ptr<Actor>(actor))));
 		actors.insert(actor);
 	}
 	{
-		auto actor = Ptr<Actor>(new Actor(Ptr<Stage>(this)));
+		auto actor = Ptr<Actor>(new Actor(this));
 		actor->AddComponent(Ptr<Player>(new Player(Transform(0,0), actor)));
 		actors.insert(actor);
 	}
@@ -23,6 +23,7 @@ Stage::Stage(const InitData& init) : IScene{ init },camera(this) {
 }
 
 void Stage::update() {
+
 	for (auto ptr : actors) {
 		ptr->Update();
 	}

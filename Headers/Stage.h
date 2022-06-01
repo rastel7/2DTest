@@ -10,6 +10,7 @@ class Stage:public  App::Scene {
 	MyCamera camera;
 	int zero = 0;
 public:
+	Ptr<CollisionManager> col_manager;
 	Stage(const InitData& init);
 	virtual ~Stage();
 	void update() override;

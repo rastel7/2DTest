@@ -7,6 +7,7 @@ Player::Player(Transform _transform, Ptr<Actor> _ptr):UpdateComponent(_ptr) {
 	if (auto ptr = mactorptr.lock()) {
 		ptr->SetTransform(_transform);
 		ptr->AddComponent(Ptr<Component>(new Sprite(U"Chara", 48, 64, ptr)));
+		ptr->AddComponent(Ptr<Collision>(new Collision(0.7f, ptr)));
 	}
 
 }
