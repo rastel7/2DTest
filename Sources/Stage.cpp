@@ -19,6 +19,16 @@ Stage::Stage(const InitData& init) : IScene{ init },camera(this),collisionmanage
 		actor->AddComponent(Ptr<Player>(new Player(Transform(0,0), actor)));
 		actors.insert(actor);
 	}
+	for (int i = 0; i < 100; ++i) {
+		{
+			auto actor = Ptr<Actor>(new Actor(Ptr<Stage>(this)));
+			auto randpos = Transform();
+			randpos.m_position.x = RandomVec2(GetMapSize().x).x;
+			randpos.m_position.y = RandomVec2(GetMapSize().y).y;
+			actor->AddComponent(Ptr<Player>(new Player(randpos, actor)));
+			actors.insert(actor);
+		}
+	}
 	
 }
 

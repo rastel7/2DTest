@@ -10,19 +10,9 @@ public:
 	inline Transform(T x, T y) :m_position(float(x), float(y)) {
 
 	}
-	inline void Update(GameSize stage_size) {
-		if (m_position.x < 0) {
-			m_position.x = stage_size.x;
-		}
-		if (m_position.y < 0) {
-			m_position.y = stage_size.y;
-		}
-		if (m_position.x > stage_size.x) {
-			m_position.x = 0;
-		}
-		if (m_position.y > stage_size.y) {
-			m_position.y = 0;
-		}
+	inline void Update(GameSize const& stage_size) {
+		m_position.x = fmod(m_position.x+ stage_size.x, stage_size.x);
+		m_position.y = fmod(m_position.y + stage_size.y, stage_size.y);
 	}
 	friend Component;
 };

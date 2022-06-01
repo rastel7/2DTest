@@ -2,13 +2,21 @@
 #include"Actor.h"
 #include"Stage.h"
 #include"CollisionManager.h"
-Collision::Collision(GameSize _size,bool _isStatic,Ptr<Actor> _ptr):DrawComponent(_ptr) ,m_size(_size),m_isStatic(_isStatic) {
+Collision::Collision(GameSize _size,bool _isStatic,Ptr<Actor> _ptr):DrawComponent(_ptr) ,m_size(_size),m_isStatic(_isStatic), this_col(this) {
 	mpriority = 100;
 	m_col_id = collision_id_manager.GetID();
-	mactorptr->AddComponent(Ptr<Component>(new CollisionUpdater(mactorptr)));
+	Ptr<Component> upd= Ptr<Component>( new CollisionUpdater(this_col,mactorptr));
+	this_updater = std::dynamic_pointer_cast<CollisionUpdater>(upd);
+	mactorptr->AddComponent(upd);
+	mactorptr->GetStage()->collisionmanager.AddCollision(WPtr<Collision>(this_col));
+	col_parameter.stage_size = mactorptr->GetStage()->GetMapSize();
+	col_parameter.m_col_id = m_col_id;
+	col_parameter.m_size = m_size;
+	col_parameter.Update();
 }
 Collision::~Collision() {
 	collision_id_manager.ReturnID(m_col_id);
+	mactorptr->GetStage()->collisionmanager.EraseCollision(WPtr<Collision>(this_col));
 }
 void Collision::Draw()const {
 #ifdef DEBUG
@@ -20,17 +28,17 @@ void Collision::Draw()const {
 		Circle(stage.x, stage.y, 3.0f).draw();
 	}
 #endif // DEBUG
-
+	col_parameter.transform = GetTransform();
 }
 CollisionParameter Collision::GetCollisionParameter() const {
-	CollisionParameter ret{ m_size,m_col_id,mactorptr->GetTransform(),mactorptr->GetStage()->GetMapSize() };
-	return ret;
+	return col_parameter;
 }
 
 
 CollisionParameter Collision::GetLargeCollisionParameter() const {
-	CollisionParameter ret{m_size*1.5f,m_col_id,mactorptr->GetTransform(),mactorptr->GetStage()->GetMapSize() };
-	return ret;
+	auto tmp = col_parameter;
+	tmp.m_size *= 1.5f;
+	return tmp;
 }
 
 
@@ -85,9 +93,6 @@ bool CollisionParameter::isHit(CollisionParameter const& r) const {
 	for (auto const& l : check_list) {
 		ret |= check(l, r_ub);
 	}
-	if (check_list.size() >= 2||l_ub.lx<0) {
-		Print << U"OOO{}"_fmt(check_list.size());
-	}
 	return ret;
 }
 GameSize CollisionParameter::GetMinBounds(CollisionParameter const& r) const {
@@ -136,7 +141,7 @@ GameSize CollisionParameter::GetMinBounds(CollisionParameter const& r) const {
 	}
 	return ret;
 }
-CollisionUpdater::CollisionUpdater(Ptr<Actor> _actor) :UpdateComponent(_actor) {
+CollisionUpdater::CollisionUpdater(WPtr<Collision> _collision_ptr,Ptr<Actor> _actor) :UpdateComponent(_actor),m_collision_ptr(_collision_ptr) {
 
 }
 
@@ -144,38 +149,29 @@ bool CollisionUpdater::isHit(CollisionParameter const& l, CollisionParameter con
 	return l.isHit(r);
 }
 void CollisionUpdater::Update() {
-	Ptr<Collision> colision_ptr = mactorptr->GetComponent<Collision>();
-	if (colision_ptr == nullptr) {
-		Print << U"コリジョンが見つかりません";
+}
+void CollisionUpdater::SolutionOverlapping(WPtr<Collision>  r_wptr) {
+	return;
+	auto l = m_collision_ptr.lock();
+	auto r = r_wptr.lock();
+	if (l->IsStatic()) {
+		if (!(r->IsStatic())) {
+			r->Get_this_updater().lock()->SolutionOverlapping(m_collision_ptr.lock());
+		}
 		return;
 	}
-	//Staticなオブジェクトは動かない
-	if (colision_ptr->IsStatic()) {
-		return;
-	}
-	/*前バージョン
-	CollisionParameter this_col_param = colision_ptr->GetCollisionParameter();
-	std::vector<CollisionParameter> colls = mactorptr->GetStage()->GetCollisionParameters();
-	for (auto const& col : colls) {
-		if (col.m_col_id == this_col_param.m_col_id)continue;//同じコリジョン
-		if (!isHit(this_col_param, col))continue;
-		GameSize bound = this_col_param.GetMinBounds(col);
-		Transform transform = GetTransform();
-		transform.m_position -= bound;
-		mactorptr->SetTransform(transform);
-		this_col_param = colision_ptr->GetCollisionParameter();
-	}
-	*/
-	std::vector<Ptr<Collision>> nearcolls = mactorptr->GetStage()->collisionmanager.GetNearCollision(colision_ptr);
-	Print << U"cool_{}"_fmt(nearcolls.size());
-	for (auto const& col : nearcolls) {
-		if (colision_ptr->GetColID() == col->GetColID())continue;//同じコリジョン
-		CollisionParameter this_col_param = colision_ptr->GetCollisionParameter();
-		if (!isHit(this_col_param, col->GetCollisionParameter()))continue;
-		GameSize bound = this_col_param.GetMinBounds(col->GetCollisionParameter());
-		Transform transform = GetTransform();
-		transform.m_position -= bound;
-		mactorptr->SetTransform(transform);
-		this_col_param = colision_ptr->GetCollisionParameter();
-	}
+	if (l->GetColID() == r->GetColID())return;//同じコリジョン
+	CollisionParameter this_col_param = l->GetCollisionParameter();
+	if (!isHit(this_col_param, r->GetCollisionParameter()))return;
+	GameSize bound = this_col_param.GetMinBounds(r->GetCollisionParameter());
+	Transform transform = GetTransform();
+	transform.m_position -= bound;
+	mactorptr->SetTransform(transform);
+	this_col_param = l->GetCollisionParameter();
+}
+void CollisionParameter::Update() {
+	lubd.lx = transform.m_position.x - m_size.x/2.0f;
+	lubd.rx = lubd.lx + m_size.x;
+	lubd.ly = transform.m_position.y + m_size.y / 2.0f;
+	lubd.ry = lubd.ly + m_size.y;
 }

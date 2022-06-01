@@ -31,7 +31,8 @@ using GameVec2 = Vector2D<float>;
 using GameSize = Vec2;
 template <class T>
 using Ptr = std::shared_ptr<T>;
-
+template <class T>
+using WPtr = std::weak_ptr<T>;
 enum class SceneState{
 	Title,
 	Stage,
