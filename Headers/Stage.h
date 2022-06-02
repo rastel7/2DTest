@@ -10,7 +10,7 @@ class Stage:public  App::Scene {
 	MyCamera camera;
 	int zero = 0;
 public:
-	CollisionManager collisionmanager;
+	Ptr<CollisionManager> col_manager;
 	Stage(const InitData& init);
 	virtual ~Stage();
 	void update() override;
@@ -27,8 +27,6 @@ public:
 		return ret;
 	}
 	GameSize GetMapSize() const;
-	std::vector<CollisionParameter> GetCollisionParameters() const;
-	std::vector<Ptr<Collision>> GetCollisions() const;
 	Vec2 GamePositiontoWorldPosition(Vec2 const& _position) const;
 	inline void AddActor(Ptr<Actor> _actor) { actors.insert(_actor); }
 };

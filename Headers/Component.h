@@ -4,7 +4,7 @@ class Actor;
 class Transform;
 class Component {
 protected:
-	Ptr<Actor> mactorptr;
+	WPtr<Actor> mactorptr;
 	Component();
 public:
 	Component(Ptr<Actor> _mactorptr);
@@ -15,5 +15,6 @@ public:
 	__int8  mpriority=0;
 	__int8 GetPriority() const;
 	Transform GetTransform() const;
+	void SetTransform(GameSize _tras);
 };
 

@@ -21,5 +21,9 @@ bool Component::operator<(Component const& r) {
 
 
 Transform Component::GetTransform() const {
-	return mactorptr->GetTransform();
+	return mactorptr.lock()->GetTransform();
+}
+
+void Component::SetTransform(GameSize _tras) {
+	mactorptr.lock()->SetTransform(Transform{ _tras });
 }

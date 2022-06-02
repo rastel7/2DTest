@@ -12,6 +12,7 @@ public:
 };
 
 class TileMap: public DrawComponent  {
+
 	Size m_map_size;
 	String m_mapname;
 	RenderTexture rendertexture;
@@ -23,7 +24,7 @@ class TileMap: public DrawComponent  {
 public:
 	TileMap(String _mapname,Ptr<Actor> _mactorptr);
 	virtual ~TileMap();
-	void Draw() const override;
+	void Draw() override;
 	Size GetTextureSize() const;
 	u_int16 GetColID(Vec2 position) const;
 	inline GameSize GetMapSize() const { return GameSize{m_map_size.x,m_map_size.y };

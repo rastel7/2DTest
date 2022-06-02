@@ -20,7 +20,7 @@ void MyCamera::Update() {
 	
 	Size texture_size = tilemap.get()->GetTextureSize();
 	auto now_camera_center = camera.getCenter();
-	/*
+	
 	if (now_camera_center.x < SystemNum::WindowWidth / 2) {
 		now_camera_center.x = SystemNum::WindowWidth / 2;
 	}
@@ -33,8 +33,8 @@ void MyCamera::Update() {
 	if (now_camera_center.y < -texture_size.y + SystemNum::WindowHeight / 2) {
 		now_camera_center.y = -texture_size.y + SystemNum::WindowHeight / 2;
 	}
-	*/
-	Print << U"Camera_Center:{}"_fmt(now_camera_center);
+	
+	//Print << U"Camera_Center:{}"_fmt(now_camera_center);
 	if (now_camera_center != camera.getCenter()) {
 		//camera.jumpTo(now_camera_center, 1.0f);
 		camera.setCenter(now_camera_center);

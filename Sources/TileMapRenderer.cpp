@@ -53,7 +53,7 @@ TileMap::TileMap(String _mapname, Ptr<Actor> _mactorptr):DrawComponent(_mactorpt
 		
 		CreateMapCollision(tmp_Tile_ID);
 		collision.m_Tile_ID = &m_Tile_ID;
-		collision.CreateCollisionTexture(mactorptr);
+		collision.CreateCollisionTexture(mactorptr.lock());
 	}
 	mpriority = -10;
 }
@@ -93,7 +93,7 @@ void TileMap::CreateMapCollision(std::vector<std::vector<u_int16>> collision_csv
 TileMap::~TileMap() {
 	
 }
-void TileMap::Draw() const {
+void TileMap::Draw()  {
 	rendertexture.draw(Arg::bottomLeft(0,0));
 	
 	#ifdef DEBUG
@@ -135,7 +135,7 @@ void TileMapCollision::CreateCollisionTexture(Ptr<Actor> actor) {
 
 	
 	collisionimage = { collision_type[0].size() * Const::TILE_MASU_SIZE, collision_type.size() * Const::TILE_MASU_SIZE };
-	
+	int tl_id = 0;
 	// レンダーターゲットを renderTexture に変更
 	for (int y = 0; y < collision_type.size(); ++y) {
 		for (int x = 0; x < collision_type[y].size(); ++x) {
@@ -151,9 +151,11 @@ void TileMapCollision::CreateCollisionTexture(Ptr<Actor> actor) {
 				color = ColorF(0.9, 0.2, 0.2, 0.2);
 				{//ステージにコリジョンをもったアクターを追加
 					Ptr<Actor> new_actor(new Actor(stage));
+					new_actor->name = U"Stage_{}"_fmt(tl_id);
+					tl_id++;
 					//auto screenpositon = pos_x + pos_x * 0.5, pos_y + pos_y * 0.5;
 					new_actor->SetTransform(Transform{(float)x+0.5f,collision_type.size()-((float)y+0.5f)});
-					new_actor->AddComponent(Ptr<Component>(new Collision(GameSize{1.0f,1.0f},true, new_actor)));
+					new_actor->AddComponent(std::make_shared<Collision>(0.5f, new_actor->GetStage()->col_manager, new_actor));
 					stage->AddActor(new_actor);
 				}
 				break;

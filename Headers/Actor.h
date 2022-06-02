@@ -9,11 +9,12 @@ class Actor {
 	std::vector<Ptr<Component>> components;
 	void UpdateComponentOrder();//コンポーネントの優先順位をソート
 protected:
-	Ptr<Stage> m_stage;
+	Stage* m_stage;
 	Transform m_transform;
 public:
 	friend Component;
-	Actor(Ptr<Stage> _m_stage);
+	String name = U"";
+	Actor(Stage* _m_stage);
 	virtual ~Actor();
 	void Update();
 	std::vector<Ptr<DrawComponent>>  Draw() const;
@@ -32,5 +33,5 @@ public:
 	}
 	inline void SetTransform(Transform const& _transform) { m_transform = _transform; }
 	inline Transform GetTransform() const { return m_transform; }
-	inline Ptr<Stage> GetStage() const { return m_stage; }
+	inline Stage* GetStage() const { return m_stage; }
 }; 

@@ -4,51 +4,34 @@
 #include"DrawComponent.h"
 #include"UpdateComponent.h"
 class Actor;
-class CollisionUpdater;
-struct CollisionParameter {
-	GameSize m_size;
-	int m_col_id;
-	Transform transform;
-	GameSize stage_size;
-	struct LeftUpandBottomDown {
-		double lx, ly, rx, ry;
-	} lubd;
-	bool isHit(CollisionParameter const& r) const;
-	LeftUpandBottomDown GetLeftandBottom() const;
-	//最小の被っている領域を返す
-	GameSize GetMinBounds(CollisionParameter const& r) const;
-	//画面外に判定の一部が出ていた場合，それに対応してズラしたコリジョンを加えたvectorを返す
-	std::vector<LeftUpandBottomDown> GetCorrectionLB(LeftUpandBottomDown const& lb)const;
-	void Update();//lubdの更新
-};
-class Collision :public DrawComponent{
-	GameSize m_size;
-	int m_col_id;
-	bool m_isStatic = false;
-	Ptr<Collision> this_col;
-	WPtr<CollisionUpdater> this_updater;
-	mutable CollisionParameter col_parameter;
+class CCell;
+class Collision;
+class CollisionManager;
+class CollisionforTree:public std::enable_shared_from_this<CollisionforTree> {
 public:
-	inline bool IsStatic() const { return m_isStatic; }
-	Collision(GameSize _size,bool _isStatic, Ptr<Actor> _ptr);
-	~Collision();
-	void Draw() const override;
-	//探索用に若干大きめのコリジョンを返す
-	CollisionParameter GetLargeCollisionParameter() const;
-	CollisionParameter GetCollisionParameter() const;
-	inline int GetColID() { return m_col_id; }
-	inline GameSize GetSize() const { return m_size; }
-	inline void SetSize(GameSize _size) { m_size = _size; }
-	inline 	WPtr<CollisionUpdater> Get_this_updater() const { return this_updater; }
+	WPtr<CollisionManager> col_manager;
+	WPtr<CCell> m_pCell;//登録されている空間へのポインタ
+	WPtr<Collision> m_pObject;//コリジョンへのポインタ
+	WPtr<CollisionforTree> m_spPre;//前方
+	WPtr<CollisionforTree> m_spNext;//後方
+	inline CollisionforTree(Ptr<Collision> _m_pObject,Ptr<CollisionManager> _col_mane):m_pObject(_m_pObject),col_manager(_col_mane) {
+		Remove();
+	}
+	inline ~CollisionforTree(){ }
+	bool RegistCell(Ptr<CCell> _p_Cell);//CCellへ自身を登録
+	bool Remove();//登録されているCCellから抜ける
+	void Update();
 };
+class Collision :public DrawComponent, public std::enable_shared_from_this<Collision> {
 
-
-//コリジョンの衝突解消を行う
-class CollisionUpdater :public UpdateComponent {
-	WPtr<Collision> m_collision_ptr;
-	bool isHit(CollisionParameter const& l, CollisionParameter const& r) const;
+	mutable Ptr<CollisionforTree> m_CFT;
+	inline Collision();
 public:
-	void SolutionOverlapping(WPtr<Collision> r_wptr);
-	CollisionUpdater(WPtr<Collision> _collision_ptr,Ptr<Actor> _actor);
-	void Update() override;
+	bool isValid = true;
+	float m_r;
+	mutable float left, top, bottom, right;
+	Collision(float _r,Ptr<CollisionManager> _col_manager, Ptr<Actor> _actor);
+	void UpdateParameter() const;
+	void Draw() override;
+	void Resolution(Ptr<Collision> const& rhs);
 };
