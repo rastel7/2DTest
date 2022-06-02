@@ -29,6 +29,9 @@ class CollisionManager {
 	bool Init(unsigned int Level, float left, float top, float right, float bottom);//木にあたらしいセルを作成する
 	unsigned long GetAllCollisionList(std::vector<WPtr<Collision>>& ColVect);
 	bool GetCollisionList(unsigned long Elem, std::vector<WPtr<Collision>>& ColVect, std::list<WPtr<Collision>>& ColStac);
+	unsigned int BitSeparate32(unsigned int n)const;//ビット分割
+	unsigned int Get2DMortonNumber(unsigned int x, unsigned int y) const;// 2Dモートン空間番号算出関数
+	unsigned int GetPointElem(float pos_x, float pos_y) const;// 座標→線形4分木要素番号変換関数
 public:
 	unsigned long GetMortonNumber(float left, float top, float right, float bottom);
 	CollisionManager(Stage* _stage);

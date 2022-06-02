@@ -37,7 +37,7 @@ bool CCell::OnRemove(Ptr<CollisionforTree> _remove_obj) {
 CollisionManager::CollisionManager(Stage* _stage) :m_stage(_stage), m_iPow(new std::array<unsigned int, CLINER4TREEMANAGER_MAXLEVEL + 1>()) {
 	Logger << U"Init_Start";
 	GameSize stage_size = m_stage->GetMapSize();
-	Init(CLINER4TREEMANAGER_MAXLEVEL-3, 0.0, stage_size.y, stage_size.x, 0.0);
+	Init(CLINER4TREEMANAGER_MAXLEVEL-5, 0.0, stage_size.y, stage_size.x, 0.0);
 	Logger << U"Init_End";
 }
 bool CollisionManager::Init(unsigned int Level, float left, float top, float right, float bottom) {
@@ -62,34 +62,32 @@ bool CollisionManager::Init(unsigned int Level, float left, float top, float rig
 	m_fTop = top;
 	m_fW = right - left;
 	m_fH = bottom-top;
-	m_fUnit_W = m_fW / (1 << Level);
-	m_fUnit_H = m_fH / (1 << Level);
+	m_fUnit_W = std::abs(m_fW / (1 << Level));
+	m_fUnit_H = std::abs(m_fH / (1 << Level));
 
 	m_uiLevel = Level;
 
 	return true;
 }
-unsigned long CollisionManager::GetMortonNumber(float left, float top, float right, float bottom) {
-	// ビット分割関数
-	auto BitSeparate32 = [&](unsigned int n)
-	{
-		n = (n | (n << 8)) & 0x00ff00ff;
-		n = (n | (n << 4)) & 0x0f0f0f0f;
-		n = (n | (n << 2)) & 0x33333333;
-		return (n | (n << 1)) & 0x55555555;
-	};
 
-	// 2Dモートン空間番号算出関数
-	auto Get2DMortonNumber = [&](unsigned int x, unsigned int y)
-	{
-		return (unsigned int)(BitSeparate32(x) | (BitSeparate32(y) << 1));
-	};
-	// 座標→線形4分木要素番号変換関数
-	auto GetPointElem = [&](float pos_x, float pos_y)
-	{
-		return Get2DMortonNumber((unsigned long)((pos_x - m_fLeft) / m_fUnit_W), (unsigned long)((pos_y - m_fTop) / m_fUnit_H));
-	};
-	
+unsigned int CollisionManager::GetPointElem(float pos_x, float pos_y) const {
+	return Get2DMortonNumber((unsigned long)((pos_x - m_fLeft) / m_fUnit_W), (unsigned long)(( m_fTop-pos_y) / m_fUnit_H));
+}
+unsigned int CollisionManager::Get2DMortonNumber(unsigned int x, unsigned int y) const {
+	return (unsigned int)(BitSeparate32(x) | (BitSeparate32(y) << 1));
+}
+unsigned int CollisionManager::BitSeparate32(unsigned int n) const{
+	n = (n | (n << 8)) & 0x00ff00ff;
+	n = (n | (n << 4)) & 0x0f0f0f0f;
+	n = (n | (n << 2)) & 0x33333333;
+	return (n | (n << 1)) & 0x55555555;
+}
+unsigned long CollisionManager::GetMortonNumber(float left, float top, float right, float bottom) {
+	//画面外にでていたらそれを修正
+	left = std::max<float>(0.0f, left);
+	right = std::min<float>(m_stage->GetMapSize().x, right);
+	bottom = std::max<float>(0.0f, bottom);
+	top = std::min<float>(m_stage->GetMapSize().y, top);
 	unsigned long LT = GetPointElem(left, top);
 	unsigned long RB = GetPointElem(right, bottom);
 	// 空間番号の排他的論理和から
@@ -113,11 +111,7 @@ unsigned long CollisionManager::GetMortonNumber(float left, float top, float rig
 	return SpaceNum;
 }
 bool CollisionManager::Regist(float left, float top, float right, float bottom, Ptr<CollisionforTree> _ptr) {
-	//画面外にでていたらそれを修正
-	left = std::max<float>(0.0f, left);
-	right = std::min<float>(m_stage->GetMapSize().x, right);
-	bottom = std::max<float>(0.0f, bottom);
-	top = std::min<float>(m_stage->GetMapSize().y, top);
+	
 	//モートン番号を取得
 	unsigned long elem = GetMortonNumber(left, top, right, bottom);
 	if (elem < m_dwCellNum) {
@@ -223,6 +217,19 @@ void CollisionManager::DebugDraw() {
 				auto r = m_stage->GamePositiontoWorldPosition(cols[k].lock()->m_pObject.lock()->GetTransform().m_position);
 				Line(l.x, l.y, r.x, r.y).draw(Palette::Blue);
 			}
+		}
+	}
+	float width =std::abs(m_fUnit_W),height=std::abs(m_fUnit_H);
+	for (float i = 0.0f; i < m_uiLevel; ++i) {
+		for (float _y = 0; _y <= std::abs(m_fH); _y += height*std::powf(2,i)) {
+			auto l = m_stage->GamePositiontoWorldPosition({ 0,_y });
+			auto r = m_stage->GamePositiontoWorldPosition({ std::abs(m_fW),_y });
+			Line(l.x, l.y, r.x, r.y).draw(std::powf(2, i), Palette::White);
+		}
+		for (float _x = 0; _x <= std::abs(m_fW); _x += width* std::powf(2, i)) {
+			auto l = m_stage->GamePositiontoWorldPosition({ _x,std::abs(m_fH) });
+			auto r = m_stage->GamePositiontoWorldPosition({ _x,0 });
+			Line(l.x, l.y, r.x, r.y).draw(std::powf(2, i), Palette::White);
 		}
 	}
 #endif // DEBUG
