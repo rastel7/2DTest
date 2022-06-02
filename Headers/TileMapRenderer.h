@@ -12,6 +12,7 @@ public:
 };
 
 class TileMap: public DrawComponent  {
+
 	Size m_map_size;
 	String m_mapname;
 	RenderTexture rendertexture;

@@ -181,6 +181,9 @@ bool CollisionManager::GetCollisionList(unsigned long Elem, std::vector<WPtr<Col
 void CollisionManager::Update() {
 	std::vector<WPtr<Collision>> ColVect;
 	GetAllCollisionList(ColVect);
+	for (int i = 0; i + 1 < ColVect.size(); i += 2) {
+		ColVect[i].lock()->Resolution(ColVect[i + 1].lock());
+	}
 	Print <<U"Near_Collisions:{}"_fmt(ColVect.size());
 	int col_cnt = 0;
 	for (int i = 0; i < m_dwCellNum; ++i) {
@@ -189,7 +192,6 @@ void CollisionManager::Update() {
 			col_cnt++;
 			ptr = ptr->m_spNext.lock();
 		}
-		++i;
 	}
 	Print << U"Col_Cnt:{}"_fmt(col_cnt);
 }

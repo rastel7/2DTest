@@ -15,5 +15,6 @@ public:
 	__int8  mpriority=0;
 	__int8 GetPriority() const;
 	Transform GetTransform() const;
+	void SetTransform(GameSize _tras);
 };
 

@@ -23,13 +23,15 @@ public:
 	void Update();
 };
 class Collision :public DrawComponent, public std::enable_shared_from_this<Collision> {
+
 	mutable Ptr<CollisionforTree> m_CFT;
 	inline Collision();
 public:
-	Collision(float _r,Ptr<CollisionManager> _col_manager, Ptr<Actor> _actor);
-	
+	bool isValid = true;
 	float m_r;
 	mutable float left, top, bottom, right;
+	Collision(float _r,Ptr<CollisionManager> _col_manager, Ptr<Actor> _actor);
 	void UpdateParameter() const;
 	void Draw() override;
+	void Resolution(Ptr<Collision> const& rhs);
 };

@@ -81,3 +81,21 @@ void Collision::UpdateParameter()  const{
 	top = m_pos.y + m_r;
 	bottom = m_pos.y - m_r;
 }
+void Collision::Resolution(Ptr<Collision> const& rhs) {
+	if (!isValid || !rhs->isValid) {
+		return;
+	}
+	auto l_t = mactorptr.lock()->GetTransform().m_position;
+	auto r_t = rhs->GetTransform().m_position;
+	auto dist_sq = (l_t.x - r_t.x) * (l_t.x - r_t.x) + (l_t.y - r_t.y) * (l_t.y - r_t.y);
+	auto circle_r = rhs->m_r * rhs->m_r + 2 * rhs->m_r * m_r + m_r * m_r;
+	if (circle_r <= dist_sq)return;//接触していない
+	auto direction = l_t - r_t;
+	direction.normalize();
+	direction *= rhs->m_r + m_r;
+	mactorptr.lock()->SetTransform(direction + r_t);
+	direction = r_t - l_t;
+	direction.normalize();
+	direction *= rhs->m_r + m_r;
+	rhs->SetTransform(direction + l_t);
+}

@@ -155,7 +155,7 @@ void TileMapCollision::CreateCollisionTexture(Ptr<Actor> actor) {
 					tl_id++;
 					//auto screenpositon = pos_x + pos_x * 0.5, pos_y + pos_y * 0.5;
 					new_actor->SetTransform(Transform{(float)x+0.5f,collision_type.size()-((float)y+0.5f)});
-					new_actor->AddComponent(std::make_shared<Collision>(0.7f, new_actor->GetStage()->col_manager, new_actor));
+					new_actor->AddComponent(std::make_shared<Collision>(0.5f, new_actor->GetStage()->col_manager, new_actor));
 					stage->AddActor(new_actor);
 				}
 				break;
