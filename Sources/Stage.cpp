@@ -8,9 +8,9 @@
 #include"Transform.h"
 
 Stage::Stage(const InitData& init) : IScene{ init },camera(this){
-	col_manager = Ptr<CollisionManager>( new CollisionManager(this));
 	{
 		auto actor = Ptr<Actor>(new Actor(this));
+		actor->name = U"Player";
 		actor->AddComponent(Ptr<Component>(new TileMap(U"TestStage",Ptr<Actor>(actor))));
 		actors.insert(actor);
 	}
@@ -19,7 +19,7 @@ Stage::Stage(const InitData& init) : IScene{ init },camera(this){
 		actor->AddComponent(Ptr<Player>(new Player(Transform(0,0), actor)));
 		actors.insert(actor);
 	}
-	
+	col_manager = Ptr<CollisionManager>( new CollisionManager(this));
 }
 
 void Stage::update() {
@@ -32,6 +32,7 @@ void Stage::update() {
 	}
 	camera.Update();
 	Print << U"ActorCount:{}"_fmt(actors.size());
+	col_manager.get()->Update();
 }
 void Stage::draw() const {
 	const auto transformer = camera.GetCamera().createTransformer();
@@ -46,6 +47,7 @@ void Stage::draw() const {
 	for (auto draw_component : draw_events) {
 		draw_component->Draw();
 	}
+	col_manager->DebugDraw();
 }
 
 Vec2 Stage::GamePositiontoWorldPosition(Vec2 const& _position) const {

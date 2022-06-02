@@ -12,7 +12,7 @@ public:
 	friend Component;
 	Sprite(String _path,u_int16 _size_x,u_int16 _size_y,Ptr<Actor> _ptr);
 	virtual ~Sprite();
-	void Draw() const override;
+	void Draw()  override;
 	inline void SetTextureID(u_int16 _id) {
 		m_tex_id = _id;
 		m_tex_id %= m_tex_regions.size();

@@ -15,7 +15,7 @@ public:
 };
 class CollisionManager {
 	static const size_t CLINER4TREEMANAGER_MAXLEVEL = 9;
-	Ptr<std::vector<CCell>> m_cellary;
+	Ptr<std::vector<Ptr<CCell>>> m_cellary;
 	Ptr<std::array<unsigned int, CLINER4TREEMANAGER_MAXLEVEL+1>> m_iPow;
 	Stage* m_stage;
 	unsigned long m_dwCellNum;// 空間の数
@@ -27,11 +27,13 @@ class CollisionManager {
 	float m_fUnit_H;		// 最小レベル空間の高単位
 	unsigned int m_uiLevel;			// 最下位レベル
 	bool Init(unsigned int Level, float left, float top, float right, float bottom);//木にあたらしいセルを作成する
-	bool Regist(float left, float top, float right, float bottom, WPtr<CollisionforTree> spOFT);
-	unsigned long GetMortonNumber(float left, float top, float right, float bottom);
 	unsigned long GetAllCollisionList(std::vector<WPtr<Collision>>& ColVect);
 	bool GetCollisionList(unsigned long Elem, std::vector<WPtr<Collision>>& ColVect, std::list<WPtr<Collision>>& ColStac);
 public:
+	unsigned long GetMortonNumber(float left, float top, float right, float bottom);
 	CollisionManager(Stage* _stage);
+	bool Regist(float left, float top, float right, float bottom, Ptr<CollisionforTree> spOFT);
+	void Update();
+	void DebugDraw();
 };
 

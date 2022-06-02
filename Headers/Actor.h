@@ -13,6 +13,7 @@ protected:
 	Transform m_transform;
 public:
 	friend Component;
+	String name = U"";
 	Actor(Stage* _m_stage);
 	virtual ~Actor();
 	void Update();

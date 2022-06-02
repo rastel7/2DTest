@@ -22,7 +22,7 @@ Sprite::Sprite(String _path, u_int16 _size_x, u_int16 _size_y, Ptr<Actor> _ptr) 
 Sprite::~Sprite() {
 
 }
-void Sprite::Draw() const{
+void Sprite::Draw(){
 	Transform transform=Component::mactorptr.lock()->GetTransform();
 	Vec2 position = mactorptr.lock()->GetStage()->GamePositiontoWorldPosition(transform.m_position);
 	m_tex_regions[m_tex_id].draw(position.x- m_size_x/2.0f, position.y-m_size_y/2.0f);
