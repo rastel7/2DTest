@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include"Def.h"
 #include"Transform.h"
+#include"Collision.h"
 class Component;
 class Stage;
 class DrawComponent;
@@ -12,6 +13,7 @@ protected:
 	Stage* m_stage;
 	Transform m_transform;
 public:
+	bool CanRemove = false;
 	friend Component;
 	String name = U"";
 	Actor(Stage* _m_stage);

@@ -116,15 +116,20 @@
     <ClCompile Include="Headers\Game.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Sources\Actor.cpp" />
+    <ClCompile Include="Sources\BasicSprite.cpp" />
     <ClCompile Include="Sources\Collision.cpp" />
     <ClCompile Include="Sources\CollisionManager.cpp" />
     <ClCompile Include="Sources\Component.cpp" />
     <ClCompile Include="Sources\Def.cpp" />
     <ClCompile Include="Sources\DrawComponent.cpp" />
+    <ClCompile Include="Sources\Enemy.cpp" />
+    <ClCompile Include="Sources\Equip.cpp" />
+    <ClCompile Include="Sources\FollowPlayer.cpp" />
     <ClCompile Include="Sources\InputManager.cpp" />
     <ClCompile Include="Sources\MyCamera.cpp" />
     <ClCompile Include="Sources\PlayerComponent.cpp" />
     <ClCompile Include="Sources\RigidBody.cpp" />
+    <ClCompile Include="Sources\Slime.cpp" />
     <ClCompile Include="Sources\SpriteRenderer.cpp" />
     <ClCompile Include="Sources\Stage.cpp" />
     <ClCompile Include="Sources\System.cpp" />
@@ -335,16 +340,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Headers\Actor.h" />
+    <ClInclude Include="Headers\BasicSprite.h" />
     <ClInclude Include="Headers\Collision.h" />
     <ClInclude Include="Headers\CollisionManager.h" />
     <ClInclude Include="Headers\Component.h" />
     <ClInclude Include="Headers\Def.h" />
     <ClInclude Include="Headers\DrawComponent.h" />
+    <ClInclude Include="Headers\Enemy.h" />
+    <ClInclude Include="Headers\Enemys.h" />
+    <ClInclude Include="Headers\Equip.h" />
+    <ClInclude Include="Headers\FollowPlayer.h" />
     <ClInclude Include="Headers\IndexManager.h" />
     <ClInclude Include="Headers\InputManager.h" />
     <ClInclude Include="Headers\MyCamera.h" />
     <ClInclude Include="Headers\PlayerComponent.h" />
     <ClInclude Include="Headers\RigidBody.h" />
+    <ClInclude Include="Headers\Slime.h" />
     <ClInclude Include="Headers\SpriteRenderer.h" />
     <ClInclude Include="Headers\Stage.h" />
     <ClInclude Include="Headers\System.h" />

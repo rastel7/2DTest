@@ -34,9 +34,7 @@ void MyCamera::Update() {
 		now_camera_center.y = -texture_size.y + SystemNum::WindowHeight / 2;
 	}
 	
-	//Print << U"Camera_Center:{}"_fmt(now_camera_center);
 	if (now_camera_center != camera.getCenter()) {
-		//camera.jumpTo(now_camera_center, 1.0f);
 		camera.setCenter(now_camera_center);
 
 	}

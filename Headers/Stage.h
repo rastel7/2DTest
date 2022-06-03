@@ -29,4 +29,5 @@ public:
 	GameSize GetMapSize() const;
 	Vec2 GamePositiontoWorldPosition(Vec2 const& _position) const;
 	inline void AddActor(Ptr<Actor> _actor) { actors.insert(_actor); }
+	Ptr<Actor> CreateActor();
 };
