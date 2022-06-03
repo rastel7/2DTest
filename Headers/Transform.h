@@ -3,7 +3,7 @@
 class Component;
 class Transform {
 public:
-	GameVec2 m_position;
+	GameVec2 m_position={0,0};
 	Transform();
 	inline Transform(GameVec2 _gv2):m_position(_gv2) {}
 	template<class T>

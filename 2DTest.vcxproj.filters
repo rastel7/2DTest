@@ -163,6 +163,24 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{36b740bb-2875-4940-93b7-a5499117c84f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Actor\Components\Enemys">
+      <UniqueIdentifier>{c4b1baa6-8d95-4be8-9d61-6d201bb30f9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actor\Components\Enemys">
+      <UniqueIdentifier>{03601db4-896f-4894-a2ec-e93f08edcfa0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actor\Components\Enemys\AI">
+      <UniqueIdentifier>{9f425c2d-206d-433c-ade9-f63cec895b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actor\Components\Enemys\AI">
+      <UniqueIdentifier>{d8263a15-aa23-4b05-bd1f-4ed484d5ea10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actor\Components\Equips">
+      <UniqueIdentifier>{d9608ec8-c36a-41f3-89d7-bec8ad6a2f49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Actor\Components\Equips">
+      <UniqueIdentifier>{6ebeb527-7cfd-49fe-b950-f4a7f583c104}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -227,6 +245,21 @@
     </ClCompile>
     <ClCompile Include="Sources\CollisionManager.cpp">
       <Filter>Source Files\Actor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Enemy.cpp">
+      <Filter>Source Files\Actor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\BasicSprite.cpp">
+      <Filter>Source Files\Actor\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Slime.cpp">
+      <Filter>Source Files\Actor\Components\Enemys</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\FollowPlayer.cpp">
+      <Filter>Source Files\Actor\Components\Enemys\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Equip.cpp">
+      <Filter>Source Files\Actor\Components\Equips</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -925,6 +958,24 @@
     </ClInclude>
     <ClInclude Include="Headers\CollisionManager.h">
       <Filter>Header Files\Actor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Enemy.h">
+      <Filter>Header Files\Actor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\BasicSprite.h">
+      <Filter>Header Files\Actor\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Slime.h">
+      <Filter>Header Files\Actor\Components\Enemys</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\FollowPlayer.h">
+      <Filter>Header Files\Actor\Components\Enemys\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Enemys.h">
+      <Filter>Header Files\Actor\Components\Enemys</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Equip.h">
+      <Filter>Header Files\Actor\Components\Equips</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

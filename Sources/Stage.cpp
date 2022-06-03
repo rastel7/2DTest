@@ -6,7 +6,7 @@
 #include"SpriteRenderer.h"
 #include"PlayerComponent.h"
 #include"Transform.h"
-
+#include"Enemys.h"
 Stage::Stage(const InitData& init) : IScene{ init },camera(this){
 	{
 		auto actor = Ptr<Actor>(new Actor(this));
@@ -20,9 +20,20 @@ Stage::Stage(const InitData& init) : IScene{ init },camera(this){
 		actors.insert(actor);
 	}
 	col_manager = Ptr<CollisionManager>( new CollisionManager(this));
+	Slime::CreateSlime(this);
 }
 
 void Stage::update() {
+	//不要なオブジェクトの削除
+	auto itr = actors.begin();
+	while (itr != actors.end()) {
+		if ((*itr)->CanRemove) {
+			itr = actors.erase(itr);
+		}
+		else {
+			itr++;
+		}
+	}
 
 	for (auto ptr : actors) {
 		ptr->Update();
@@ -69,4 +80,9 @@ GameSize Stage::GetMapSize() const {
 		return GameSize{0,0};
 	}
 	return stage->GetMapSize();
+}
+Ptr<Actor> Stage::CreateActor() {
+	auto actor = std::make_shared<Actor>(this);
+	actors.insert(actor);
+	return actor;
 }
