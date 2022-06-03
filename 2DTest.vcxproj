@@ -125,6 +125,7 @@
     <ClCompile Include="Sources\Enemy.cpp" />
     <ClCompile Include="Sources\Equip.cpp" />
     <ClCompile Include="Sources\FollowPlayer.cpp" />
+    <ClCompile Include="Sources\HandGun.cpp" />
     <ClCompile Include="Sources\InputManager.cpp" />
     <ClCompile Include="Sources\MyCamera.cpp" />
     <ClCompile Include="Sources\PlayerComponent.cpp" />
@@ -349,7 +350,9 @@
     <ClInclude Include="Headers\Enemy.h" />
     <ClInclude Include="Headers\Enemys.h" />
     <ClInclude Include="Headers\Equip.h" />
+    <ClInclude Include="Headers\Equips.h" />
     <ClInclude Include="Headers\FollowPlayer.h" />
+    <ClInclude Include="Headers\HandGun.h" />
     <ClInclude Include="Headers\IndexManager.h" />
     <ClInclude Include="Headers\InputManager.h" />
     <ClInclude Include="Headers\MyCamera.h" />

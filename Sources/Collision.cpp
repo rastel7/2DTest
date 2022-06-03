@@ -50,7 +50,7 @@ Collision::Collision(float _r, Ptr<CollisionManager> _col_manager, Ptr<Actor> _a
 
 }
 void Collision::Draw()  {
-#ifdef DEBUG
+#ifdef DEBUG1
 	auto stage = mactorptr.lock()->GetStage()->GamePositiontoWorldPosition(mactorptr.lock().get()->GetTransform().m_position);
 	auto c = Circle(stage.x,stage.y,m_r*Const::TILE_MASU_SIZE);
 	c.draw(ColorF(0.1,0.7,0.1,0.3));

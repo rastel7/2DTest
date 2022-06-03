@@ -6,6 +6,7 @@ using IM = InputManager;
 
 struct InputAssembly {
 	bool Left=0, Right=0, Up=0, Down=0, Jump=0, Start=0,Ok=0;
+	Vec2 RightPad={0.0f,0.0f};
 };
 enum PadButtonNumber {
 	Down=12,
@@ -26,6 +27,7 @@ public:
 	bool GetPressed(PadButtonNumber pad_num,InputAssembly const& input_asm) const;
 	bool GetPressed(PadButtonNumber pad_num) const;
 	bool GetEdgePressed(PadButtonNumber pad_num) const;
+	Vec2 GetRightPad() const;
 	void Update();
 	void DebugDraw() const;//画面上にパッド入力を表示
 };

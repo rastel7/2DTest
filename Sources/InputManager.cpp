@@ -29,6 +29,14 @@ void InputManager::UpdatePadInput(InputAssembly& input_asm) {
 		input_asm.Jump |= gamepad.buttons[PadButtonNumber::Jump].pressed();
 		input_asm.Start |= gamepad.buttons[PadButtonNumber::Start].pressed();
 		input_asm.Ok |= gamepad.buttons[PadButtonNumber::Ok].pressed();
+		if(gamepad.axes.size() >= 4) {
+			input_asm.RightPad.x = gamepad.axes.at(3);
+			input_asm.RightPad.y = gamepad.axes.at(4);
+		}
+		else {
+			Print << U"ゲームパッドの軸が足りていません";
+		}
+		Print << input_asm.RightPad;
 	}
 	const char32_t str[] = U"hoge";
 	return;
@@ -85,4 +93,8 @@ void InputManager::DebugDraw() const {
 	for (auto name : pressed_button) {
 		Print << U"{}"_fmt(name);
 	}
+}
+
+Vec2 InputManager::GetRightPad() const {
+	return m_previnput[0].RightPad;
 }

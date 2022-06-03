@@ -2,9 +2,17 @@
 #include"Def.h"
 #include"Transform.h"
 #include"Collision.h"
+#include"Actor.h"
 class Component;
 class Stage;
 class DrawComponent;
+enum class ActorType {
+	ETC = 0,
+	PLAYER,
+	ENEMY,
+	EQUIP,
+};
+
 class Actor {
 	int _componentNum = -1;
 	std::vector<Ptr<Component>> components;
@@ -12,6 +20,7 @@ class Actor {
 protected:
 	Stage* m_stage;
 	Transform m_transform;
+	ActorType m_actor_type;
 public:
 	bool CanRemove = false;
 	friend Component;
@@ -36,4 +45,7 @@ public:
 	inline void SetTransform(Transform const& _transform) { m_transform = _transform; }
 	inline Transform GetTransform() const { return m_transform; }
 	inline Stage* GetStage() const { return m_stage; }
+	inline ActorType GetActorType() const { return m_actor_type; }
+	inline void SetActorType(ActorType const& _actor_type) { m_actor_type = m_actor_type; }
 }; 
+

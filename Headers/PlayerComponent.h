@@ -9,7 +9,6 @@ struct PlayerProperty {
 	const int MOVE_SPRITE_PERIOD = 15;
 	bool isLeft = 0;//右を向いている
 	int MovingTime = 0;//連続して歩いている時間
-
 };
 class Player : public UpdateComponent {
 	Ptr<Sprite> m_player_sprite;

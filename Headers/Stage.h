@@ -4,6 +4,7 @@
 #include"Transform.h"
 #include"Collision.h"
 #include"CollisionManager.h"
+#include"Actor.h"
 class Actor;
 class Stage:public  App::Scene {
 	std::set<Ptr<Actor>> actors;
@@ -28,6 +29,8 @@ public:
 	}
 	GameSize GetMapSize() const;
 	Vec2 GamePositiontoWorldPosition(Vec2 const& _position) const;
-	inline void AddActor(Ptr<Actor> _actor) { actors.insert(_actor); }
 	Ptr<Actor> CreateActor();
+	//特定のtypeのアクターをvectorにして返す
+	std::vector<WPtr<Actor>> GetActors(ActorType _actor_type);
+	inline void AddActor(Ptr<Actor> _actor) { actors.insert(_actor); }
 };

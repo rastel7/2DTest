@@ -261,6 +261,9 @@
     <ClCompile Include="Sources\Equip.cpp">
       <Filter>Source Files\Actor\Components\Equips</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\HandGun.cpp">
+      <Filter>Source Files\Actor\Components\Equips</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -975,6 +978,12 @@
       <Filter>Header Files\Actor\Components\Enemys</Filter>
     </ClInclude>
     <ClInclude Include="Headers\Equip.h">
+      <Filter>Header Files\Actor\Components\Equips</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\HandGun.h">
+      <Filter>Header Files\Actor\Components\Equips</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Equips.h">
       <Filter>Header Files\Actor\Components\Equips</Filter>
     </ClInclude>
   </ItemGroup>
