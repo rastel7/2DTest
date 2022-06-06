@@ -6,4 +6,3 @@ namespace mySystem {
 	void Initialize();
 	Point GetViewportPoint(float x, float y);
 };
-
