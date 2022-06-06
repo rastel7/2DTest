@@ -13,9 +13,9 @@ void Equip::Update() {
 		auto sprite = mactorptr.lock()->GetComponent<Sprite>();
 		if (sprite != nullptr) {
 			auto angle = inputmanager.GetRightPad().getAngle()-Math::PiF/2.0f;
+			m_angle = angle;
 			sprite->SetAngle(angle);
 		}
-		Print << inputmanager.GetRightPad().getAngle() ;
 	}
 }
 

@@ -5,4 +5,7 @@ Enemy::Enemy(const int _HP, Ptr<Actor> _ptr) :DrawComponent(_ptr),hp(_HP) {
 }
 void Enemy::DecreseHP(int _hp) {
 	hp -= _hp;
+	if (hp <= 0) {
+		mactorptr.lock()->CanRemove = true;
+	}
 }
