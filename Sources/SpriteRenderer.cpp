@@ -26,5 +26,10 @@ void Sprite::Draw(){
 	if (not(0 <= m_tex_id && m_tex_id < m_tex_regions.size()))return;
 	Transform transform=Component::mactorptr.lock()->GetTransform();
 	Vec2 position = mactorptr.lock()->GetStage()->GamePositiontoWorldPosition(transform.m_position);
-	m_tex_regions[m_tex_id].draw(position.x- m_size_x/2.0f, position.y-m_size_y/2.0f);
+	if (!isRotated) {
+		m_tex_regions[m_tex_id].draw(position.x - m_size_x / 2.0f, position.y - m_size_y / 2.0f);
+	}
+	else {
+		m_tex_regions[m_tex_id].rotated(m_rotation_theta).draw(position.x - m_size_x / 2.0f, position.y - m_size_y / 2.0f);
+	}
 }

@@ -7,6 +7,7 @@
 #include"PlayerComponent.h"
 #include"Transform.h"
 #include"Enemys.h"
+#include"Equips.h"
 Stage::Stage(const InitData& init) : IScene{ init },camera(this){
 	{
 		auto actor = Ptr<Actor>(new Actor(this));
@@ -18,6 +19,7 @@ Stage::Stage(const InitData& init) : IScene{ init },camera(this){
 		auto actor = Ptr<Actor>(new Actor(this));
 		actor->AddComponent(Ptr<Player>(new Player(Transform(0,0), actor)));
 		actors.insert(actor);
+		HandGun::EquipHandGun(actor, this);
 	}
 	col_manager = Ptr<CollisionManager>( new CollisionManager(this));
 	Slime::CreateSlime(this);
@@ -41,9 +43,10 @@ void Stage::update() {
 	if (inputmanager.GetEdgePressed(PadButtonNumber::Jump)) {
 		System::Exit();
 	}
+	
 	camera.Update();
-	Print << U"ActorCount:{}"_fmt(actors.size());
 	col_manager.get()->Update();
+	Print << U"ActorCount:{}"_fmt(actors.size());
 }
 void Stage::draw() const {
 	const auto transformer = camera.GetCamera().createTransformer();
@@ -86,3 +89,14 @@ Ptr<Actor> Stage::CreateActor() {
 	actors.insert(actor);
 	return actor;
 }
+
+std::vector<WPtr<Actor>> Stage::GetActors(ActorType _actor_type) {
+	std::vector<WPtr<Actor>> ret;
+	for (auto ptr : actors) {
+		if (ptr->GetActorType() == _actor_type) {
+			ret.emplace_back(ptr);
+		}
+	}
+	return ret;
+}
+

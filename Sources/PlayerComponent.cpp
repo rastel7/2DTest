@@ -10,7 +10,7 @@ Player::Player(Transform _transform, Ptr<Actor> _ptr):UpdateComponent(_ptr) {
 		ptr->AddComponent(Ptr<Component>(new Sprite(U"Chara", 48, 64, ptr)));
 		ptr->AddComponent(std::make_shared<Collision>(0.7f, mactorptr.lock()->GetStage()->col_manager, ptr));
 	}
-
+	mactorptr.lock()->SetActorType(ActorType::PLAYER);
 }
 
 void Player::Update() {
