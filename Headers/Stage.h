@@ -33,4 +33,5 @@ public:
 	//特定のtypeのアクターをvectorにして返す
 	std::vector<WPtr<Actor>> GetActors(ActorType _actor_type);
 	inline void AddActor(Ptr<Actor> _actor) { actors.insert(_actor); }
+
 };
