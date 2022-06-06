@@ -369,3 +369,5 @@ App/
 /2DTest.vcxproj
 /.gitattributes
 /.editorconfig
+
+!/App/Resources
