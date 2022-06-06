@@ -36,7 +36,6 @@ void InputManager::UpdatePadInput(InputAssembly& input_asm) {
 		else {
 			Print << U"ゲームパッドの軸が足りていません";
 		}
-		Print << input_asm.RightPad;
 	}
 	const char32_t str[] = U"hoge";
 	return;

@@ -11,6 +11,7 @@ enum class ActorType {
 	PLAYER,
 	ENEMY,
 	EQUIP,
+	PLAYER_BULLET
 };
 
 class Actor {
