@@ -364,8 +364,3 @@ FodyWeavers.xsd
 
 # 追加
 *.exe
-App/AS_DEBUG
-App/dll/soundtouch
-App/engine
-App/example
-App/icon.ico
