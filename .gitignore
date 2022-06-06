@@ -361,3 +361,11 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# 追加
+App/
+/2DTest.sln
+/2DTest.vcxproj.filters
+/2DTest.vcxproj
+/.gitattributes
+/.editorconfig

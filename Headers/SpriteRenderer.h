@@ -9,6 +9,7 @@ class Sprite:public DrawComponent {
 	String m_name;
 	u_int16 m_size_x, m_size_y;
 	float m_rotation_theta;
+	bool isRotated = false;
 	Sprite();
 public:
 	friend Component;
@@ -23,4 +24,5 @@ public:
 		return m_tex_id;
 	}
 	inline void SetAngle(float const& _theta) { m_rotation_theta = _theta; }
+	inline void SetisRotated(bool const& _b) { isRotated = _b; }
 };

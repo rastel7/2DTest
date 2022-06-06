@@ -5,6 +5,8 @@ class Stage;
 class Equip :public UpdateComponent {
 	WPtr<Actor> m_player;
 	GameVec2 m_relativelaunch={0.0f,0.0f};//相対的な発射座標
+protected:
+	float m_angle = 0;
 public:
 	Equip(Ptr<Actor> _player_ptr,Ptr<Actor> _actor_ptr);
 	virtual void Update();

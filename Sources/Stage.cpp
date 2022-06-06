@@ -43,9 +43,10 @@ void Stage::update() {
 	if (inputmanager.GetEdgePressed(PadButtonNumber::Jump)) {
 		System::Exit();
 	}
+	
 	camera.Update();
-	Print << U"ActorCount:{}"_fmt(actors.size());
 	col_manager.get()->Update();
+	Print << U"ActorCount:{}"_fmt(actors.size());
 }
 void Stage::draw() const {
 	const auto transformer = camera.GetCamera().createTransformer();
@@ -98,3 +99,4 @@ std::vector<WPtr<Actor>> Stage::GetActors(ActorType _actor_type) {
 	}
 	return ret;
 }
+

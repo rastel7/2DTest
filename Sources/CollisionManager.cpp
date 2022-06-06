@@ -82,7 +82,7 @@ unsigned int CollisionManager::BitSeparate32(unsigned int n) const{
 	n = (n | (n << 2)) & 0x33333333;
 	return (n | (n << 1)) & 0x55555555;
 }
-unsigned long CollisionManager::GetMortonNumber(float left, float top, float right, float bottom) {
+unsigned long CollisionManager::GetMortonNumber(float left, float top, float right, float bottom)const {
 	//画面外にでていたらそれを修正
 	left = std::max<float>(0.0f, left);
 	right = std::min<float>(m_stage->GetMapSize().x, right);
@@ -130,7 +130,7 @@ unsigned long CollisionManager::GetAllCollisionList(std::vector<WPtr<Collision>>
 	Logger << U"EndALL";
 	return (unsigned long)ColVect.size();
 }
-bool CollisionManager::GetCollisionList(unsigned long Elem, std::vector<WPtr<Collision>>& ColVect, std::list<WPtr<Collision>>& ColStac) {
+bool CollisionManager::GetCollisionList(unsigned long Elem, std::vector<WPtr<Collision>>& ColVect, std::list<WPtr<Collision>>& ColStac)const {
 	std::list<WPtr<Collision>>::iterator itr;
 	//1:空間内でのオブジェクト同士の衝突リストを作成
 	Ptr<CollisionforTree> spCFT1 = m_cellary.get()->at(Elem)->GetFirstObj().lock();
@@ -235,4 +235,32 @@ void CollisionManager::DebugDraw() {
 		}
 	}
 #endif // DEBUG
+}
+void CollisionManager::GetCollisions(GameVec2 _position, float _r, std::vector<WPtr<Collision>>& ColVect)const {
+	float left = _position.x - _r;
+	float right = _position.x + _r;
+	float top = _position.y + _r;
+	float bottom = _position.y - _r;
+	auto morton = GetMortonNumber(left, top, right, bottom);
+	GetCollisionList(morton, ColVect);
+}
+
+bool CollisionManager::GetCollisionList(unsigned long Elem, std::vector<WPtr<Collision>>& ColVect)const {
+	std::list<WPtr<Collision>>::iterator itr;
+	//1:空間内でのオブジェクトを作成
+	Ptr<CollisionforTree> spCFT1 = m_cellary.get()->at(Elem)->GetFirstObj().lock();
+	while (spCFT1.get() != nullptr) {
+		ColVect.emplace_back(spCFT1->m_pObject);
+		spCFT1 = spCFT1->m_spNext.lock();
+	}
+	unsigned int ObjNum = 0;
+	unsigned int i, NextElem;
+	for (i = 0; i < 4; ++i) {
+		NextElem = Elem * 4 + 1 + i;
+		if (NextElem < m_dwCellNum) {
+			//子空間へ
+			GetCollisionList(Elem * 4 + 1 + i, ColVect);
+		}
+	}
+	return true;
 }

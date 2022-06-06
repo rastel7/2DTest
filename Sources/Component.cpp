@@ -27,3 +27,4 @@ Transform Component::GetTransform() const {
 void Component::SetTransform(GameSize _tras) {
 	mactorptr.lock()->SetTransform(Transform{ _tras });
 }
+
