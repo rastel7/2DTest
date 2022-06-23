@@ -25,4 +25,5 @@ public:
 	}
 	inline void SetAngle(float const& _theta) { m_rotation_theta = _theta; }
 	inline void SetisRotated(bool const& _b) { isRotated = _b; }
+	inline u_int16 GetTextureIDSize() const { return m_tex_regions.size(); }
 };

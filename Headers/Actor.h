@@ -18,6 +18,7 @@ class Actor {
 	int _componentNum = -1;
 	std::vector<Ptr<Component>> components;
 	void UpdateComponentOrder();//コンポーネントの優先順位をソート
+	Actor();
 protected:
 	Stage* m_stage;
 	Transform m_transform;

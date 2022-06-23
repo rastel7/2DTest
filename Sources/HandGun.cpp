@@ -11,19 +11,20 @@ HandGun::HandGun(Ptr<Actor> _player_ptr, Ptr<Actor> _actor_ptr)
 	sprite_component->SetisRotated(true);
 	mactorptr.lock()->AddComponent(Ptr<Component>(sprite_component));
 	mactorptr.lock()->name = U"HandGunBullet";
-	m_length = 0.5f;
+	m_length = 0.4f;
 }
 
 void HandGun::Update() {
 	Equip::Update();
-	if (inputmanager.GetPressed(PadButtonNumber::Ok)) {
+	if (inputmanager.GetPressed(PadButtonNumber::Ok)&&m_bullet_interval<=0.0f) {
+		m_bullet_interval = 1.0f;
 		float angle=m_angle;
 		auto dir = GameVec2(Math::Cos(angle), -Math::Sin(angle));
 		float speed = 5.0f;
 		float damage = 1;
-		GameVec2 bulletposition = GetTransform().m_position;
-		bulletposition += (m_length * GameVec2::Right()).rotate(-angle);
+		GameVec2 bulletposition = GetBulletFirePosition();
 		HandGunBullet::CreateBullet(bulletposition,dir, speed, damage, mactorptr.lock()->GetStage());
+		CreateGunEffect(bulletposition, angle);
 	}
 }
 

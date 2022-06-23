@@ -8,6 +8,8 @@ Sprite::Sprite(String _path, u_int16 _size_x, u_int16 _size_y, Ptr<Actor> _ptr) 
 	if(not m_texture) {
 		throw Error(U"Can'tRead"+path);
 	}
+	
+	auto size = m_texture.size();
 	u_int16 Y_size = m_texture.size().y / _size_y;
 	u_int16 X_size = m_texture.size().x / _size_x;
 	m_tex_regions.resize(Y_size * X_size);
@@ -17,7 +19,6 @@ Sprite::Sprite(String _path, u_int16 _size_x, u_int16 _size_y, Ptr<Actor> _ptr) 
 			m_tex_regions[id] = m_texture(x * m_size_x, y * m_size_y, m_size_x, m_size_y);
 		}
 	}
-	mpriority = 0;
 }
 Sprite::~Sprite() {
 
