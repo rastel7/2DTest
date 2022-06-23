@@ -11,6 +11,7 @@ HandGun::HandGun(Ptr<Actor> _player_ptr, Ptr<Actor> _actor_ptr)
 	sprite_component->SetisRotated(true);
 	mactorptr.lock()->AddComponent(Ptr<Component>(sprite_component));
 	mactorptr.lock()->name = U"HandGunBullet";
+	m_length = 0.5f;
 }
 
 void HandGun::Update() {
@@ -20,8 +21,9 @@ void HandGun::Update() {
 		auto dir = GameVec2(Math::Cos(angle), -Math::Sin(angle));
 		float speed = 5.0f;
 		float damage = 1;
-		GameVec2 position = GetTransform().m_position;
-		HandGunBullet::CreateBullet(position,dir, speed, damage, mactorptr.lock()->GetStage());
+		GameVec2 bulletposition = GetTransform().m_position;
+		bulletposition += (m_length * GameVec2::Right()).rotate(-angle);
+		HandGunBullet::CreateBullet(bulletposition,dir, speed, damage, mactorptr.lock()->GetStage());
 	}
 }
 
@@ -30,5 +32,6 @@ void HandGun::EquipHandGun(WPtr<Actor> _player, Stage* _stage) {
 	auto gun = std::make_shared<Actor>(_stage);
 	gun->name = U"HandGun";
 	gun->AddComponent(Ptr<Component>(std::make_shared<HandGun>(_player.lock(), gun)));
+	
 	_stage->AddActor(gun);
 }
