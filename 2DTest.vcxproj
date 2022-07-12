@@ -119,6 +119,7 @@
     <ClCompile Include="Sources\BasicSprite.cpp" />
     <ClCompile Include="Sources\Bullet.cpp" />
     <ClCompile Include="Sources\Card.cpp" />
+    <ClCompile Include="Sources\CardParameter.cpp" />
     <ClCompile Include="Sources\Collision.cpp" />
     <ClCompile Include="Sources\CollisionManager.cpp" />
     <ClCompile Include="Sources\Component.cpp" />

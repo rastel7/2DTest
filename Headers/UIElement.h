@@ -3,6 +3,7 @@
 #include"UI.h"
 
 class UIElement {
+protected:
 	WPtr<UI> m_parent;
 	int m_priority=0;
 	Vec2 screen_position;

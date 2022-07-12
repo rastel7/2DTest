@@ -14,6 +14,7 @@ namespace Const {
 	extern const String TILEMAP_CSV_PATH;//タイルマップのCSVが入っているフォルダへのパス
 	extern const String TILEMAP_COLISION_PATH;//タイルマップのCSVが入っているフォルダへのパス
 	extern const String SPRITE_PATH;//スプライトが入っているフォルダへのパス
+	extern const String CARD_PATH;//カードデータが入っているフォルダへのパス
 	extern const int TILE_MASU_SIZE;
 }
 
