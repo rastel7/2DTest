@@ -181,6 +181,12 @@
     <Filter Include="Source Files\Actor\Components\Equips">
       <UniqueIdentifier>{6ebeb527-7cfd-49fe-b950-f4a7f583c104}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{86b0287b-c4a8-4a03-bce8-7222712fae16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{3c525862-8c9d-4ee4-94d0-fd47c4bf10ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -272,6 +278,9 @@
     </ClCompile>
     <ClCompile Include="Sources\GunEffect.cpp">
       <Filter>Source Files\Actor\Components\Equips</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Card.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1003,6 +1012,15 @@
     </ClInclude>
     <ClInclude Include="Headers\GunEffect.h">
       <Filter>Header Files\Actor\Components\Equips</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\UI.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\UIElement.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Card.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
