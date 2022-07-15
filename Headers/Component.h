@@ -3,7 +3,6 @@
 //#include"Actor.h"
 class Actor;
 class Transform;
-enum class ActotType;
 class Component {
 protected:
 	WPtr<Actor> mactorptr;

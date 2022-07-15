@@ -10,4 +10,5 @@ protected:
 public:
 	Bullet(Ptr<Actor> _actor);
 	void Update();
+	void AddDamage(Ptr<Actor> _enemy);
 };

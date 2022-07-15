@@ -5,13 +5,17 @@
 #include"Collision.h"
 #include"CollisionManager.h"
 #include"Actor.h"
+#include"UI.h"
+#include"CardEffects.h"
 class Actor;
 class Stage:public  App::Scene {
 	std::set<Ptr<Actor>> actors;
+	UIManager m_uimanager;//ポーズ画面等のゲームを止めるメニューの実装に利用する
 	MyCamera camera;
 	int zero = 0;
 public:
 	Ptr<CollisionManager> col_manager;
+	Ptr<CardEffects> m_cardeffects;
 	Stage(const InitData& init);
 	virtual ~Stage();
 	void update() override;

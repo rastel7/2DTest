@@ -22,7 +22,7 @@ class Actor {
 protected:
 	Stage* m_stage;
 	Transform m_transform;
-	ActorType m_actor_type;
+	ActorType m_actor_type=ActorType::ETC;
 public:
 	bool CanRemove = false;
 	friend Component;
@@ -48,6 +48,5 @@ public:
 	inline Transform GetTransform() const { return m_transform; }
 	inline Stage* GetStage() const { return m_stage; }
 	inline ActorType GetActorType() const { return m_actor_type; }
-	inline void SetActorType(ActorType const& _actor_type) { m_actor_type = m_actor_type; }
-}; 
-
+	inline void SetActorType(ActorType const& _actor_type) { m_actor_type = _actor_type; }
+};

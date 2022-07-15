@@ -6,5 +6,5 @@ class DrawComponent : public Component {
 public:
 	virtual ~DrawComponent();
 	DrawComponent(Ptr<Actor> _mactorptr);
-	virtual void Draw();
+	virtual void Draw()=0;
 };

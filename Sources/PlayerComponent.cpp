@@ -17,6 +17,7 @@ void Player::Update() {
 	SetComponents();
 	Move();
 	UpdatePlayerGraphics();
+	
 }
 
 void Player::Move() {
