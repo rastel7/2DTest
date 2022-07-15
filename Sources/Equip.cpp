@@ -41,6 +41,8 @@ void Equip::Update() {
 		});
 		m_effetcts.erase(ptr, m_effetcts.end());
 	}
+	//最大弾数の更新
+	SetMaxBullet();
 }
 
 bool Equip::DestroyNowEquip(Stage* _stage) {
@@ -57,4 +59,43 @@ void Equip::CreateGunEffect(GameVec2 position,float angle) {
 	m_effetcts.emplace_back(effect);
 	obj->AddComponent(effect);
 	m_player.lock()->GetStage()->AddActor(obj);
+}
+
+void Equip::DrawRemainBullet() const {
+	Transform player_position;
+	if (auto ptr = m_player.lock()) {
+		player_position = ptr->GetTransform();
+	}
+	else {
+		return;
+	}
+	//左上にずらす
+	player_position.m_position -= GameVec2(0.5f, -0.5f);
+	auto screen_position = m_player.lock()->GetStage()->GamePositiontoWorldPosition(player_position.m_position);
+	float radius = 10.0f;
+	float deg = Math::TwoPiF;
+	if (max_bullet != 0) {
+		deg = Math::TwoPiF *((float)remain_bullet / max_bullet);
+	}
+	Print << remain_bullet;
+	Print << deg;
+	Circle{ screen_position,radius }.drawArc(0, 360.0f, 0, radius*0.05f,ColorF(0.0f,0.0f,0.0f));
+	Circle{ screen_position,radius }.drawArc(0, 360.0f, radius * 0.2, 0);
+	Circle{ screen_position,radius }.drawArc(0, deg,radius*0.2,0,ColorF(0.2f,0.8f,0.2f));
+}
+
+void  Equip::SetMaxBullet() {
+	float per = (float)(mactorptr.lock()->GetStage()->m_cardeffects->GetMaxBullet()*0.1f +1.0f) ;
+	float _mx_bulletf = default_max_bullet * per;
+	max_bullet = round(_mx_bulletf);
+}
+
+BulletGauge::BulletGauge(Ptr<Equip> _equip, Ptr<Actor> _mactorptr):DrawComponent(_mactorptr),m_equip(_equip) {
+	DrawComponent::mpriority = 10;
+}
+
+void BulletGauge::Draw() {
+	if (auto ptr = m_equip.lock()) {
+		ptr->DrawRemainBullet();
+	}
 }

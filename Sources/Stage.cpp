@@ -8,7 +8,7 @@
 #include"Transform.h"
 #include"Enemys.h"
 #include"Equips.h"
-Stage::Stage(const InitData& init) : IScene{ init },camera(this){
+Stage::Stage(const InitData& init) : IScene{ init },camera(this), m_uimanager(this), m_cardeffects(std::make_shared<CardEffects>()){
 	{
 		auto actor = Ptr<Actor>(new Actor(this));
 		actor->name = U"Player";
@@ -26,6 +26,7 @@ Stage::Stage(const InitData& init) : IScene{ init },camera(this){
 }
 
 void Stage::update() {
+	const auto transformer = camera.GetCamera().createTransformer();
 	//不要なオブジェクトの削除
 	auto itr = actors.begin();
 	while (itr != actors.end()) {
@@ -36,7 +37,12 @@ void Stage::update() {
 			itr++;
 		}
 	}
-
+	if (m_uimanager.HasUI()) {
+		//メニュー画面などが表示されている
+		m_uimanager.Update();
+		return;
+	}
+	m_uimanager.DebugUpdate();
 	for (auto ptr : actors) {
 		ptr->Update();
 	}
@@ -62,6 +68,8 @@ void Stage::draw() const {
 		draw_component->Draw();
 	}
 	col_manager->DebugDraw();
+	transformer.~Transformer2D();
+	m_uimanager.Draw();
 }
 
 Vec2 Stage::GamePositiontoWorldPosition(Vec2 const& _position) const {

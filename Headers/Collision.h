@@ -3,10 +3,12 @@
 #include"Transform.h"
 #include"DrawComponent.h"
 #include"UpdateComponent.h"
+
 class Actor;
 class CCell;
 class Collision;
 class CollisionManager;
+enum class ActorType;
 class CollisionforTree:public std::enable_shared_from_this<CollisionforTree> {
 public:
 	WPtr<CollisionManager> col_manager;
@@ -23,9 +25,9 @@ public:
 	void Update();
 };
 class Collision :public DrawComponent, public std::enable_shared_from_this<Collision> {
-
 	mutable Ptr<CollisionforTree> m_CFT;
 	inline Collision();
+	bool IsSameTag(ActorType l,ActorType r,ActorType target1,ActorType target2);
 public:
 	bool isValid = true;
 	float m_r;

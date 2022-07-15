@@ -27,7 +27,11 @@ void HandGunBullet::CreateBullet(GameVec2 _position,GameVec2 _direction, float _
 		throw U"nullptrが渡されています";
 	}
 	auto actor = std::make_shared<Actor>(stage);
-	actor->AddComponent(Ptr<Component>(std::make_shared<HandGunBullet>(_position,_direction, _speed, damage, actor)));
+	actor->SetActorType(ActorType::PLAYER_BULLET);
+	auto handgun_bullet = std::make_shared<HandGunBullet>(_position, _direction, _speed, damage, actor);
+	auto col = std::make_shared<Collision>(0.5f, stage->col_manager,actor);
+	actor->AddComponent(handgun_bullet);
+	actor->AddComponent(col);
 	stage->AddActor(actor);
 }
 

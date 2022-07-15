@@ -2,7 +2,7 @@
 #include"Actor.h"
 #include"Stage.h"
 #include"CollisionManager.h"
-
+#include"Bullet.h"
 bool CollisionforTree::RegistCell(Ptr<CCell> _p_Cell) {
 	if (_p_Cell != nullptr) {
 		m_pCell = _p_Cell;
@@ -50,16 +50,12 @@ Collision::Collision(float _r, Ptr<CollisionManager> _col_manager, Ptr<Actor> _a
 
 }
 void Collision::Draw()  {
-#ifdef DEBUG1
+#ifdef DEBUG
 	auto stage = mactorptr.lock()->GetStage()->GamePositiontoWorldPosition(mactorptr.lock().get()->GetTransform().m_position);
 	auto c = Circle(stage.x,stage.y,m_r*Const::TILE_MASU_SIZE);
 	c.draw(ColorF(0.1,0.7,0.1,0.3));
-	c = Circle(stage.x, stage.y, m_r * Const::TILE_MASU_SIZE*0.5);
-	c.draw(ColorF(0.1, 0.7, 0.1, 1.0));
-	if (m_CFT != nullptr) {
-		auto molton = m_CFT->col_manager.lock()->GetMortonNumber(left, top, right, bottom);
-		Print << U"{}_{}"_fmt(mactorptr.lock()->name, molton);
-	}
+
+	
 #endif // DEBUG
 	UpdateParameter();
 	if (m_CFT == nullptr) {
@@ -90,6 +86,35 @@ void Collision::Resolution(Ptr<Collision> const& rhs) {
 	auto dist_sq = (l_t.x - r_t.x) * (l_t.x - r_t.x) + (l_t.y - r_t.y) * (l_t.y - r_t.y);
 	auto circle_r = rhs->m_r * rhs->m_r + 2 * rhs->m_r * m_r + m_r * m_r;
 	if (circle_r <= dist_sq)return;//接触していない
+
+	auto this_tag = this->mactorptr.lock()->GetActorType();
+	auto opponent_tag = rhs->mactorptr.lock()->GetActorType();
+	if (IsSameTag(this_tag,opponent_tag,ActorType::PLAYER,ActorType::PLAYER_BULLET)) {
+		//自分の弾と自分自身が衝突しているので無視
+		return;
+	}
+	if (IsSameTag(this_tag, opponent_tag, ActorType::PLAYER_BULLET, ActorType::ENEMY)) {
+		//弾が敵に命中した
+		Ptr<Bullet> bullet_ptr;
+		Ptr<Actor> enemy_actor_ptr;
+		if (this_tag == ActorType::PLAYER_BULLET) {
+			bullet_ptr = this->GetActor().lock()->GetComponent<Bullet>();
+			enemy_actor_ptr = rhs->GetActor().lock();
+		}
+		else {
+			bullet_ptr = rhs->GetActor().lock()->GetComponent<Bullet>();
+			enemy_actor_ptr = this->GetActor().lock();
+		}
+	
+		if (bullet_ptr && enemy_actor_ptr) {
+			bullet_ptr->AddDamage(enemy_actor_ptr);
+		}
+		else {
+			throw U"弾が敵に命中したが，どちらかのポインタが不正です";
+		}
+		return;
+	}
+	
 	auto direction = l_t - r_t;
 	if (direction.isZero()) {
 		direction = { 1,0 };
@@ -104,4 +129,8 @@ void Collision::Resolution(Ptr<Collision> const& rhs) {
 	direction.normalize();
 	direction *= rhs->m_r + m_r;
 	rhs->SetTransform(direction + l_t);
+}
+
+bool Collision::IsSameTag(ActorType l, ActorType r, ActorType target1, ActorType target2) {
+	return (l == target1 && r == target2) || (l == target2 && r == target1);
 }

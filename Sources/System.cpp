@@ -15,6 +15,7 @@ namespace mySystem {
 				if (!buf.isEmpty()) {
 					ret.emplace_back(buf);
 				}
+				buf.clear();
 			}
 			else {
 				buf += c;

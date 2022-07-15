@@ -119,7 +119,9 @@
     <ClCompile Include="Sources\BasicSprite.cpp" />
     <ClCompile Include="Sources\Bullet.cpp" />
     <ClCompile Include="Sources\Card.cpp" />
+    <ClCompile Include="Sources\CardEffects.cpp" />
     <ClCompile Include="Sources\CardParameter.cpp" />
+    <ClCompile Include="Sources\CardSelecter.cpp" />
     <ClCompile Include="Sources\Collision.cpp" />
     <ClCompile Include="Sources\CollisionManager.cpp" />
     <ClCompile Include="Sources\Component.cpp" />
@@ -143,6 +145,7 @@
     <ClCompile Include="Sources\TileMapRenderer.cpp" />
     <ClCompile Include="Sources\Title.cpp" />
     <ClCompile Include="Sources\Transform.cpp" />
+    <ClCompile Include="Sources\UI.cpp" />
     <ClCompile Include="Sources\UpdateComponent.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -349,6 +352,8 @@
     <ClInclude Include="Headers\BasicSprite.h" />
     <ClInclude Include="Headers\Bullet.h" />
     <ClInclude Include="Headers\Card.h" />
+    <ClInclude Include="Headers\CardEffects.h" />
+    <ClInclude Include="Headers\CardSelecter.h" />
     <ClInclude Include="Headers\Collision.h" />
     <ClInclude Include="Headers\CollisionManager.h" />
     <ClInclude Include="Headers\Component.h" />
