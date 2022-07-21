@@ -12,5 +12,5 @@ void Slime::CreateSlime(Stage* _stage) {
 	actor.get()->AddComponent(Ptr<Component>(std::make_shared<BasicSprite>(actor)));
 	actor.get()->AddComponent(Ptr<Component>(std::make_shared<Collision>(0.5f,_stage->col_manager,actor)));
 	actor.get()->AddComponent(Ptr<Component>(std::make_shared<FollowPlayer>( actor)));
-	actor.get()->AddComponent(Ptr<Component>(std::make_shared<Slime>(actor,10)));
+	actor.get()->AddComponent(Ptr<Component>(std::make_shared<Slime>(actor)));
 }

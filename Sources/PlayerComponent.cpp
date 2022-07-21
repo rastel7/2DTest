@@ -3,12 +3,13 @@
 #include"SpriteRenderer.h"
 #include"Collision.h"
 #include"Stage.h"
-Player::Player(Transform _transform, Ptr<Actor> _ptr):UpdateComponent(_ptr) {
+Player::Player(Transform _transform, Ptr<Actor> _ptr) :UpdateComponent(_ptr), m_life({ 3,3 }) {
 	mactorptr.lock()->name = U"Player";
 	if (auto ptr = mactorptr.lock()) {
 		ptr->SetTransform(_transform);
 		ptr->AddComponent(Ptr<Component>(new Sprite(U"Chara", 48, 64, ptr)));
 		ptr->AddComponent(std::make_shared<Collision>(0.7f, mactorptr.lock()->GetStage()->col_manager, ptr));
+
 	}
 	mactorptr.lock()->SetActorType(ActorType::PLAYER);
 }
@@ -17,7 +18,7 @@ void Player::Update() {
 	SetComponents();
 	Move();
 	UpdatePlayerGraphics();
-	
+	ExpProcess();
 }
 
 void Player::Move() {
@@ -76,4 +77,11 @@ void Player::UpdatePlayerGraphics() {
 		add = 2;
 	}
 	m_player_sprite->SetTextureID((id + add)%12);
+}
+
+void Player::ExpProcess() {
+	while (exp.max_exp <= exp.now_exp) {
+		exp.now_exp = 0;
+		mactorptr.lock()->GetStage()->CreateCard();
+	}
 }

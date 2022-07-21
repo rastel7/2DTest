@@ -21,9 +21,7 @@ void UIManager::DebugUpdate() {
 	Print << U"Q:Card";
 	if (KeyQ.pressed())
 	{
-		auto ptr = std::make_shared<CardSelecter>(m_stage);
-		ptr->CardGeneration();
-		m_uis.emplace_back(ptr);
+		CreateCard();
 	}
 }
 void UIManager::DebugDraw() const{
@@ -31,4 +29,9 @@ void UIManager::DebugDraw() const{
 	return;
 #endif // !DEBUG
 	
+}
+void UIManager::CreateCard() {
+	auto ptr = std::make_shared<CardSelecter>(m_stage);
+	ptr->CardGeneration();
+	m_uis.emplace_back(ptr);
 }

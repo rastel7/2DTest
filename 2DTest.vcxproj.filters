@@ -294,6 +294,9 @@
     <ClCompile Include="Sources\CardEffects.cpp">
       <Filter>Source Files\etc</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\PlayerETC.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -1039,6 +1042,9 @@
     </ClInclude>
     <ClInclude Include="Headers\CardEffects.h">
       <Filter>Header Files\etc</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\PlayerETC.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

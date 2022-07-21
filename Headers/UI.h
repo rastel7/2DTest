@@ -18,10 +18,12 @@ protected:
 	Stage* m_stage;
 	std::vector<Ptr<UI>> m_uis;
 public:
+	inline void AddElement(Ptr<UI> _ptr) { m_uis.emplace_back(_ptr); }
 	inline UIManager(Stage*_stage):m_stage(_stage) {}
 	inline bool HasUI()const { return !m_uis.empty(); }
+	void CreateCard();
 	void DebugUpdate();
 	void DebugDraw() const;
-	void Draw() const;
-	void Update();
+	virtual void Draw() const;
+	virtual void Update();
 };

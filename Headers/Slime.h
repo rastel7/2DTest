@@ -5,6 +5,6 @@ class Actor;
 class Stage;
 class Slime:public Enemy {
 public:
-	inline Slime(Ptr<Actor> _ptr,int HP=10) :Enemy(HP,_ptr) {};
+	inline Slime(Ptr<Actor> _ptr,int HP=1,int EXP=1) :Enemy(HP, EXP,_ptr) {};
 	static void CreateSlime(Stage* _stage);
 };

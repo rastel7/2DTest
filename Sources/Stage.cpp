@@ -8,7 +8,8 @@
 #include"Transform.h"
 #include"Enemys.h"
 #include"Equips.h"
-Stage::Stage(const InitData& init) : IScene{ init },camera(this), m_uimanager(this), m_cardeffects(std::make_shared<CardEffects>()){
+#include"PlayerETC.h"
+Stage::Stage(const InitData& init) : IScene{ init },camera(this), m_uimanager(this), m_dontstopui(this), m_cardeffects(std::make_shared<CardEffects>()){
 	{
 		auto actor = Ptr<Actor>(new Actor(this));
 		actor->name = U"Player";
@@ -17,9 +18,11 @@ Stage::Stage(const InitData& init) : IScene{ init },camera(this), m_uimanager(th
 	}
 	{
 		auto actor = Ptr<Actor>(new Actor(this));
-		actor->AddComponent(Ptr<Player>(new Player(Transform(0,0), actor)));
+		auto player_ptr = Ptr<Player>(new Player(Transform(0, 0), actor));
+		actor->AddComponent(player_ptr);
 		actors.insert(actor);
 		HandGun::EquipHandGun(actor, this);
+		m_dontstopui.AddElement(std::make_shared<PlayerHPDraw>(this,player_ptr));
 	}
 	col_manager = Ptr<CollisionManager>( new CollisionManager(this));
 	Slime::CreateSlime(this);
@@ -42,6 +45,7 @@ void Stage::update() {
 		m_uimanager.Update();
 		return;
 	}
+	m_dontstopui.Update();
 	m_uimanager.DebugUpdate();
 	for (auto ptr : actors) {
 		ptr->Update();
@@ -69,6 +73,7 @@ void Stage::draw() const {
 	}
 	col_manager->DebugDraw();
 	transformer.~Transformer2D();
+	m_dontstopui.Draw();
 	m_uimanager.Draw();
 }
 
@@ -108,3 +113,6 @@ std::vector<WPtr<Actor>> Stage::GetActors(ActorType _actor_type) {
 	return ret;
 }
 
+void Stage::CreateCard() {
+	m_uimanager.CreateCard();
+}

@@ -11,9 +11,12 @@ class Actor;
 class Stage:public  App::Scene {
 	std::set<Ptr<Actor>> actors;
 	UIManager m_uimanager;//ポーズ画面等のゲームを止めるメニューの実装に利用する
+	UIManager m_dontstopui;//ゲーム画面を止めないUI
+
 	MyCamera camera;
 	int zero = 0;
 public:
+	
 	Ptr<CollisionManager> col_manager;
 	Ptr<CardEffects> m_cardeffects;
 	Stage(const InitData& init);
@@ -37,5 +40,5 @@ public:
 	//特定のtypeのアクターをvectorにして返す
 	std::vector<WPtr<Actor>> GetActors(ActorType _actor_type);
 	inline void AddActor(Ptr<Actor> _actor) { actors.insert(_actor); }
-
+	void CreateCard();
 };

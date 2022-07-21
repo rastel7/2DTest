@@ -136,6 +136,7 @@
     <ClCompile Include="Sources\InputManager.cpp" />
     <ClCompile Include="Sources\MyCamera.cpp" />
     <ClCompile Include="Sources\PlayerComponent.cpp" />
+    <ClCompile Include="Sources\PlayerETC.cpp" />
     <ClCompile Include="Sources\RigidBody.cpp" />
     <ClCompile Include="Sources\Slime.cpp" />
     <ClCompile Include="Sources\SpriteRenderer.cpp" />
@@ -371,6 +372,7 @@
     <ClInclude Include="Headers\InputManager.h" />
     <ClInclude Include="Headers\MyCamera.h" />
     <ClInclude Include="Headers\PlayerComponent.h" />
+    <ClInclude Include="Headers\PlayerETC.h" />
     <ClInclude Include="Headers\RigidBody.h" />
     <ClInclude Include="Headers\Slime.h" />
     <ClInclude Include="Headers\SpriteRenderer.h" />
