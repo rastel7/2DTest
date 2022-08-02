@@ -129,6 +129,7 @@
     <ClCompile Include="Sources\DrawComponent.cpp" />
     <ClCompile Include="Sources\Enemy.cpp" />
     <ClCompile Include="Sources\Equip.cpp" />
+    <ClCompile Include="Sources\EXPPrise.cpp" />
     <ClCompile Include="Sources\FollowPlayer.cpp" />
     <ClCompile Include="Sources\GunEffect.cpp" />
     <ClCompile Include="Sources\HandGun.cpp" />
@@ -364,6 +365,7 @@
     <ClInclude Include="Headers\Enemys.h" />
     <ClInclude Include="Headers\Equip.h" />
     <ClInclude Include="Headers\Equips.h" />
+    <ClInclude Include="Headers\EXPPrise.h" />
     <ClInclude Include="Headers\FollowPlayer.h" />
     <ClInclude Include="Headers\GunEffect.h" />
     <ClInclude Include="Headers\HandGun.h" />

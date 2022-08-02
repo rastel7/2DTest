@@ -3,6 +3,8 @@
 #include"Stage.h"
 #include"CollisionManager.h"
 #include"Bullet.h"
+#include"PlayerComponent.h"
+#include"EXPPrise.h"
 bool CollisionforTree::RegistCell(Ptr<CCell> _p_Cell) {
 	if (_p_Cell != nullptr) {
 		m_pCell = _p_Cell;
@@ -86,7 +88,10 @@ void Collision::Resolution(Ptr<Collision> const& rhs) {
 	auto dist_sq = (l_t.x - r_t.x) * (l_t.x - r_t.x) + (l_t.y - r_t.y) * (l_t.y - r_t.y);
 	auto circle_r = rhs->m_r * rhs->m_r + 2 * rhs->m_r * m_r + m_r * m_r;
 	if (circle_r <= dist_sq)return;//接触していない
-
+	if (mactorptr.lock()->CanRemove || rhs->mactorptr.lock()->CanRemove) { 
+		//どちらかがすでに削除済み
+		return; 
+	}
 	auto this_tag = this->mactorptr.lock()->GetActorType();
 	auto opponent_tag = rhs->mactorptr.lock()->GetActorType();
 	if (IsSameTag(this_tag,opponent_tag,ActorType::PLAYER,ActorType::PLAYER_BULLET)) {
@@ -114,7 +119,25 @@ void Collision::Resolution(Ptr<Collision> const& rhs) {
 		}
 		return;
 	}
-	
+	if (IsSameTag(this_tag, opponent_tag, ActorType::PLAYER, ActorType::EXP_PRISE)) {
+		
+		//EXPプライズに触れた
+		Ptr<Player> player_ptr;
+		Ptr<EXPPrise> expprise_ptr;
+		if (this_tag == ActorType::PLAYER) {
+			player_ptr = this->GetActor().lock()->GetComponent<Player>();
+			expprise_ptr = rhs->GetActor().lock()->GetComponent<EXPPrise>();
+		}
+		else {
+			player_ptr = rhs->GetActor().lock()->GetComponent<Player>();
+			expprise_ptr = this->GetActor().lock()->GetComponent<EXPPrise>();
+		}
+		if (expprise_ptr && player_ptr) {
+			expprise_ptr->GetActor().lock()->CanRemove = true;
+			player_ptr->AddExp(expprise_ptr->GetEXP());
+		}
+		return;
+	}
 	auto direction = l_t - r_t;
 	if (direction.isZero()) {
 		direction = { 1,0 };
@@ -134,3 +157,4 @@ void Collision::Resolution(Ptr<Collision> const& rhs) {
 bool Collision::IsSameTag(ActorType l, ActorType r, ActorType target1, ActorType target2) {
 	return (l == target1 && r == target2) || (l == target2 && r == target1);
 }
+void Collision::SetRadius(float _r) { m_r = _r; }

@@ -6,7 +6,7 @@
 #include"Stage.h"
 void Card::Draw() const{
 
-	auto font = fontmanager.Get(U"card-normal");
+	auto font = fontmanager.Get(U"card-normal", Const::DEFAULT_FONT_SIZE / 1.5f);
 	const auto center = mySystem::GetViewportPoint(screen_position.x,screen_position.y);
 	const auto CARD_WIDTH= mySystem::GetViewportPoint(WIDTH, HEIGHT);
 	auto card_rect = Rect{ center.x - CARD_WIDTH.x / 2,center.y - CARD_WIDTH.y / 2,CARD_WIDTH.x,CARD_WIDTH.y };
@@ -20,7 +20,9 @@ void Card::Draw() const{
 	}
 	card_rect.draw(ColorF(0.3, 0.3, 0.3));
 	auto font_size = font.fontSize();
-	font(m_cardparam->name).draw(center.x - CARD_WIDTH.x / 2, center.y - CARD_WIDTH.y / 2 );
+	auto title_desc_rect = Rect{ center.x - CARD_WIDTH.x / 2, center.y - CARD_WIDTH.y / 2 ,CARD_WIDTH.x,font_size+10 };
+	//font(m_cardparam->name).draw(center.x - CARD_WIDTH.x / 2, center.y - CARD_WIDTH.y / 2 );
+	font(m_cardparam->name).draw(title_desc_rect);
 	auto small_font= fontmanager.Get(U"card-small",Const::DEFAULT_FONT_SIZE/2);
 	const auto desc_rect = Rect{ center.x - CARD_WIDTH.x/2,center.y - CARD_WIDTH.y/2 + font_size,CARD_WIDTH.x,CARD_WIDTH.y - font_size };
 	small_font(m_cardparam->description).draw(desc_rect);

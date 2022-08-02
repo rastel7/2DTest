@@ -36,4 +36,5 @@ public:
 	void UpdateParameter() const;
 	void Draw() override;
 	void Resolution(Ptr<Collision> const& rhs);
+	void SetRadius(float _r);
 };

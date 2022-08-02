@@ -2,6 +2,7 @@
 #include"Actor.h"
 #include"Stage.h"
 #include"PlayerComponent.h"
+#include"EXPPrise.h"
 Enemy::Enemy(const int _HP, const int _EXP, Ptr<Actor> _ptr) :DrawComponent(_ptr),hp(_HP) ,exp(_EXP) {
 	mactorptr.lock()->SetActorType(ActorType::ENEMY);
 	
@@ -12,7 +13,8 @@ void Enemy::DecreseHP(int _hp) {
 		hp = 100000000;
 		mactorptr.lock()->CanRemove = true;
 		if (auto player = mactorptr.lock()->GetStage()->GetComponent<Player>()) {
-			player->AddExp(exp);
+			//player->AddExp(exp);
+			EXPPrise::GenerateEXPPrise(mactorptr.lock()->GetStage(),GetTransform().m_position,exp);
 		}
 	}
 }
