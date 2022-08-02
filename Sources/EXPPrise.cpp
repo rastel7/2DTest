@@ -30,3 +30,6 @@ void EXPPrise::Update() {
 	}
 }
 int EXPPrise::GetEXP() const { return 1; }
+
+float EXPPrise::GetSpeed() const { return SPEED; }
+float EXPPrise::GetGetDist() const { return GETDIST; }

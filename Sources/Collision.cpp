@@ -133,8 +133,17 @@ void Collision::Resolution(Ptr<Collision> const& rhs) {
 			expprise_ptr = this->GetActor().lock()->GetComponent<EXPPrise>();
 		}
 		if (expprise_ptr && player_ptr) {
-			expprise_ptr->GetActor().lock()->CanRemove = true;
-			player_ptr->AddExp(expprise_ptr->GetEXP());
+			auto GetDist = expprise_ptr->GetGetDist();
+			if (dist_sq < GetDist * GetDist) {
+				expprise_ptr->GetActor().lock()->CanRemove = true;
+				player_ptr->AddExp(expprise_ptr->GetEXP());
+			}
+			else {
+				auto dir = ( player_ptr->GetTransform().m_position- expprise_ptr->GetTransform().m_position).normalize();
+				auto prise_pos = expprise_ptr->GetTransform();
+				prise_pos.m_position += dir * expprise_ptr->GetSpeed() * Scene::DeltaTime();
+				expprise_ptr->SetTransform(prise_pos.m_position);
+			}
 		}
 		return;
 	}
